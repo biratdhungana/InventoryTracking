@@ -6,8 +6,8 @@ import java.util.*;
 
 public class CameraLineOfSight {
 
-	private int[] tagLocation = new int[]{50,5,60};
-	private int[] cameraLocation = new int[]{10,20,30};
+	private static int[] tagLocation = new int[]{50,5,60};
+	private static int[] cameraLocation = new int[]{10,20,30};
 		
 	public int[] getCameraLocation() {
 		return cameraLocation;
@@ -17,7 +17,7 @@ public class CameraLineOfSight {
 		return tagLocation;
 	}
 	
-	public int[] equationOfLine() {
+	public static int[] equationOfLine() {
 		
 		//vector v = cameraLocation - tagLocation
 		int[] v = new int[] {cameraLocation[0]-tagLocation[0], cameraLocation[1]-tagLocation[1], cameraLocation[2]-tagLocation[2]};
@@ -31,6 +31,14 @@ public class CameraLineOfSight {
 		
 		int[] equationCoordinates = new int[] {a, b, c};
 		return equationCoordinates;
+		
+	}
+	
+	public static void main(String[] args) {
+		
+		int[] results = equationOfLine();
+		System.out.println("equation = " + results[0] + "x+" + results[1]+ "y+" + results[2]);
+		
 		
 	}
 	
