@@ -25,9 +25,9 @@ public class CameraLineOfSight {
 		int[] r = new int[] {cameraLocation[0]+v[0], cameraLocation[1]+v[1], cameraLocation[2]+v[2]};
 		
 		//Equation of line in 3D space = ax+by+c
-		int a = v[1];
-		int b = -v[0];
-		int c = cameraLocation[0]*v[1] - cameraLocation[1]*v[0];
+		int a = v[1]*v[2];
+		int b = -v[0]*v[2];
+		int c = (cameraLocation[0]*v[1] - cameraLocation[1]*v[0])*v[2]+cameraLocation[2];
 		
 		int[] equationCoordinates = new int[] {a, b, c};
 		return equationCoordinates;
@@ -37,7 +37,7 @@ public class CameraLineOfSight {
 	public static void main(String[] args) {
 		
 		int[] results = equationOfLine();
-		System.out.println("equation = " + results[0] + "x+" + results[1]+ "y+" + results[2]);
+		System.out.println("z = " + results[0] + "x+" + results[1]+ "y+" + results[2]);
 		
 		
 	}
