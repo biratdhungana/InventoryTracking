@@ -8,6 +8,9 @@ public class CameraLineOfSight {
 
 	private static int[] tagLocation = new int[]{50,5,60};
 	private static int[] cameraLocation = new int[]{10,20,30};
+	
+	private static int[] doorEdge1 = new int[]{10,20,0};
+	private static int[] doorEdge2 = new int[]{15,40,0};
 		
 	public int[] getCameraLocation() {
 		return cameraLocation;
@@ -17,7 +20,7 @@ public class CameraLineOfSight {
 		return tagLocation;
 	}
 	
-	public static int[] equationOfLine() {
+	public static int[] equationOfLine(int[] cameraLocation, int[] tagLocation) {
 		
 		//vector v = cameraLocation - tagLocation
 		int[] v = new int[] {cameraLocation[0]-tagLocation[0], cameraLocation[1]-tagLocation[1], cameraLocation[2]-tagLocation[2]};
@@ -36,8 +39,11 @@ public class CameraLineOfSight {
 	
 	public static void main(String[] args) {
 		
-		int[] results = equationOfLine();
-		System.out.println("z = " + results[0] + "x+" + results[1]+ "y+" + results[2]);
+		int[] lineofsight = equationOfLine(cameraLocation, tagLocation);
+		System.out.println("z = " + lineofsight[0] + "x" + lineofsight[1]+ "y" + lineofsight[2]);
+		
+		int[] entranceBoundary = equationOfLine(doorEdge1, doorEdge2);
+		System.out.println("z = " + entranceBoundary[0] + "x" + entranceBoundary[1]+ "y" + entranceBoundary[2]);
 		
 		
 	}
