@@ -15,7 +15,7 @@ public class ReceiverArduinoData {
 	      // Check the arguments
 	    if( args.length != 2 )   //if the number of arguments do not include port and host
 	    {
-	       System.out.println( "usage: UDPReceiver port" ) ;
+	       System.out.println( "usage: Receiver port" ) ;
 	       return ;
 	    }
 	      
@@ -27,9 +27,7 @@ public class ReceiverArduinoData {
 	         int port = Integer.parseInt( args[1] ) ;                  //port number   
 	         InetAddress host = InetAddress.getByName( args[0] ) ;     //host address
 	         socket = new DatagramSocket(port) ;                       //socket
-	         
-	         // Construct the socket
-	         //DatagramSocket socket = new DatagramSocket( port ) ;
+
 	         
 	         for( ;; )
 	         {
