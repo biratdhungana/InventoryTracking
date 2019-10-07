@@ -1,4 +1,4 @@
-package main;
+ package main;
 import java.io.IOException;
 import java.net.*;
 import java.util.*;
@@ -6,11 +6,15 @@ import java.util.*;
 
 public class CameraLineOfSight {
 
-	private static int[] tagLocation = new int[]{50,5,60};
-	private static int[] cameraLocation = new int[]{10,20,30};
+	public static int[] tagLocation = new int[]{50,5,60};
+	public static int[] cameraLocation = new int[]{10,20,30};
 	
-	private static int[] doorEdge1 = new int[]{10,20,0};
-	private static int[] doorEdge2 = new int[]{15,40,0};
+	public static int[] doorEdge1 = new int[]{10,20,0};
+	public static int[] doorEdge2 = new int[]{15,40,0};
+	
+	public CameraLineOfSight() {
+
+	}
 		
 	public int[] getCameraLocation() {
 		return cameraLocation;
