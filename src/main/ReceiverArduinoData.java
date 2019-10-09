@@ -12,6 +12,19 @@ public class ReceiverArduinoData {
 
 	public static void main( String args[] )
 	{
+		CameraLineOfSight camera = new CameraLineOfSight();
+	      
+	    int[] lineofsight = camera.equationOfLine(camera.cameraLocation, camera.tagLocation);
+		System.out.println("z = " + lineofsight[0] + "x" + lineofsight[1]+ "y" + lineofsight[2]);
+			
+		int[] entranceBoundary = camera.equationOfLine(camera.doorEdge1, camera.doorEdge2);
+		System.out.println("z = " + entranceBoundary[0] + "x" + entranceBoundary[1]+ "y" + entranceBoundary[2]);
+		
+		double[] angles = camera.angles();
+		System.out.println("Angle on x-y Plane = " + angles[0]);
+		System.out.println("Angle on y-z Plane = " + angles[1]);
+		
+		
 	      // Check the arguments
 	    if( args.length != 2 )   //if the number of arguments do not include port and host
 	    {
@@ -40,12 +53,6 @@ public class ReceiverArduinoData {
 		    System.out.println( e ) ;
 		}
 	      
-	  	CameraLineOfSight camera = new CameraLineOfSight();
-	      
-	    int[] lineofsight = camera.equationOfLine(camera.cameraLocation, camera.tagLocation);
-		System.out.println("z = " + lineofsight[0] + "x" + lineofsight[1]+ "y" + lineofsight[2]);
-			
-		int[] entranceBoundary = camera.equationOfLine(camera.doorEdge1, camera.doorEdge2);
-		System.out.println("z = " + entranceBoundary[0] + "x" + entranceBoundary[1]+ "y" + entranceBoundary[2]);
+	  	
 	}
 }

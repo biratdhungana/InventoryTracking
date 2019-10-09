@@ -1,5 +1,6 @@
  package main;
 import java.io.IOException;
+import java.lang.Math;
 import java.net.*;
 import java.util.*;
 
@@ -39,6 +40,27 @@ public class CameraLineOfSight {
 		int[] equationCoordinates = new int[] {a, b, c};
 		return equationCoordinates;
 		
+		//Information to be sent to Arduino: Angle in comparison to a reference point/line
+		//Based on this angle, the motors will move the camera to this angle from the reference point/line
+	}
+	
+	public static double[] angles() {
+		
+		double[] referenceLine = new double[] {0, 0, 0};
+		
+		//Calculate x-y plane angle: y/x
+		double x = equationOfLine(cameraLocation, tagLocation)[0] - referenceLine[0];
+		double y = equationOfLine(cameraLocation, tagLocation)[1] - referenceLine[1];
+		double z = equationOfLine(cameraLocation, tagLocation)[2] - referenceLine[2];
+		double xyAngle = Math.atan(y / x);
+		
+		//Calculate x-z plane angle: z/x
+		double yzAngle = Math.atan(z / x);
+		
+		//Send these two angles to the Arduino
+		double[] angles = new double[] {xyAngle, yzAngle};
+		
+		return angles;
 	}
 	
 	public static void main(String[] args) {
@@ -48,6 +70,7 @@ public class CameraLineOfSight {
 		
 		int[] entranceBoundary = equationOfLine(doorEdge1, doorEdge2);
 		System.out.println("z = " + entranceBoundary[0] + "x" + entranceBoundary[1]+ "y" + entranceBoundary[2]);
+
 		
 		
 	}
