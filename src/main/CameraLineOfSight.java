@@ -52,10 +52,10 @@ public class CameraLineOfSight {
 		double x = equationOfLine(cameraLocation, tagLocation)[0] - referenceLine[0];
 		double y = equationOfLine(cameraLocation, tagLocation)[1] - referenceLine[1];
 		double z = equationOfLine(cameraLocation, tagLocation)[2] - referenceLine[2];
-		double xyAngle = Math.atan(y / x);
+		double xyAngle = Math.tan(y / x);
 		
 		//Calculate x-z plane angle: z/x
-		double yzAngle = Math.atan(z / x);
+		double yzAngle = Math.tan(z / x);
 		
 		//Send these two angles to the Arduino
 		double[] angles = new double[] {xyAngle, yzAngle};
