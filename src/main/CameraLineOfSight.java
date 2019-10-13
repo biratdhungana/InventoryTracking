@@ -11,7 +11,7 @@ public class CameraLineOfSight {
 	public static int[] cameraLocation = new int[]{10,20,30};
 	
 	public static int[] doorEdge1 = new int[]{10,20,0};
-	public static int[] doorEdge2 = new int[]{15,40,0};
+	public static int[] doorEdge2 = new int[]{15,40,7};
 	
 	public CameraLineOfSight() {
 

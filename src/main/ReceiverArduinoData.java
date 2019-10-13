@@ -15,10 +15,10 @@ public class ReceiverArduinoData {
 		CameraLineOfSight camera = new CameraLineOfSight();
 	      
 	    int[] lineofsight = camera.equationOfLine(camera.cameraLocation, camera.tagLocation);
-		System.out.println("z = " + lineofsight[0] + "x" + lineofsight[1]+ "y" + lineofsight[2]);
+		System.out.println("z = " + lineofsight[0] + "x+" + lineofsight[1]+ "y+" + lineofsight[2]);
 			
 		int[] entranceBoundary = camera.equationOfLine(camera.doorEdge1, camera.doorEdge2);
-		System.out.println("z = " + entranceBoundary[0] + "x" + entranceBoundary[1]+ "y" + entranceBoundary[2]);
+		System.out.println("z = " + entranceBoundary[0] + "x+" + entranceBoundary[1]+ "y+" + entranceBoundary[2]);
 		
 		double[] angles = camera.angles();
 		System.out.println("Angle on x-y Plane (in radians) = " + angles[0]);
