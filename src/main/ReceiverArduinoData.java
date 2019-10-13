@@ -22,6 +22,7 @@ public class ReceiverArduinoData {
 		
 		double[] angles = camera.angles();
 		System.out.println("Angle on x-y Plane = " + angles[0]);
+		System.out.println("Angle on x-z Plane = " + angles[0]);
 		System.out.println("Angle on y-z Plane = " + angles[1]);
 		
 		
