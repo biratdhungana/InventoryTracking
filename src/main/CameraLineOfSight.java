@@ -71,21 +71,6 @@ public class CameraLineOfSight {
 		
 		return angles;  //send these 3 angles to the camera controlling rpi to move the motors based on these angles
 		
-		/*
-		//Calculate x-y plane angle: y/x
-		double x = equationOfLine(cameraLocation, tagLocation)[0] - referenceLine[0];
-		double y = equationOfLine(cameraLocation, tagLocation)[1] - referenceLine[1];
-		double z = equationOfLine(cameraLocation, tagLocation)[2] - referenceLine[2];
-		double xyAngle = Math.tan(y / x);
-		
-		//Calculate x-z plane angle: z/x
-		double yzAngle = Math.tan(z / x);
-		
-		//Send these two angles to the Arduino
-		double[] angles = new double[] {xyAngle, yzAngle};
-		
-		return angles;
-		*/
 	}
 	
 	public static void main(String[] args) {
