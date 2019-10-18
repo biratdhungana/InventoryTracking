@@ -1,10 +1,10 @@
 package main;
 import java.net.*;
 
-public class ReceiverArduinoData {
+public class ReceiverCameraData {
 
 
-	public ReceiverArduinoData() {
+	public ReceiverCameraData() {
 
 	}
 	
@@ -38,15 +38,29 @@ public class ReceiverArduinoData {
 	    try
 	    {
 	         // Convert the argument to ensure that is it valid
-	         int port = Integer.parseInt( args[1] ) ;                  //port number   
-	         InetAddress host = InetAddress.getByName( args[0] ) ;     //host address
-	         socket = new DatagramSocket(port) ;                       //socket
+	         socket = new DatagramSocket(4445) ;                       //socket
 
 	         
 	         for( ;; )
 	         {
+	        	 //receive data from app regarding which RF tag (inventory #) the camera needs to track 
+	        	 ReceiverApp rfTagData = new ReceiverApp();
+	        	 rfTagData.receive(6000);
+	        	 
+	        	 //send data to cameras regarding which RF tag (inventory #) the camera needs to track
+	        	 SendToCamera sendCamera = new SendToCamera();
+	        	 sendCamera.send(angles[0], angles[1], angles[2]);
+	        	 
+	        	 //receive snapshots/livestream data from cameras
 		         DatagramPacket packet = new DatagramPacket( new byte[PACKETSIZE], PACKETSIZE ) ;   //initialize packet of data to be received
-	             socket.receive( packet ) ;     //receive data
+	             socket.receive( packet ) ;     //receive data from camera
+	             
+	             //Send camera/livestream data to android app
+	             Database db = new Database();
+	             SenderApp sender = new SenderApp();     //initialize sender
+	             sender.send(db, "134.117.59.135", 6000);
+	             
+	             
 	         }
 	    }
 	    catch( Exception e )

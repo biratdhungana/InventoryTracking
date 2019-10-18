@@ -17,12 +17,12 @@ public class SenderApp {
     public static BufferedReader bufferedReader;
     public static String message;
     
-	public void send(Database db)  {   
+	public void send(Database db, String ip, int port)  {   
 		Database database = db;         //Database is not created yet
 		                                //Database will store the snapshots
 		
 		try {
-			Socket s = new Socket("10.0.0.100", 6000);
+			Socket s = new Socket(ip, port);
 			PrintWriter pw = new PrintWriter(s.getOutputStream());
 			pw.write(database.retrieveLastEntry());      //The latest 5 snapshots in the database will be retrieved and sent to the app
 			pw.flush();

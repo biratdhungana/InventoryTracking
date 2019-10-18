@@ -10,7 +10,7 @@ public JSONObject params;
 		
 	}
 
-	public JSONObject SendThis(double xAngle, double yAngle, double zAngle) throws JSONException {
+	public JSONObject send(double xAngle, double yAngle, double zAngle) throws JSONException {
 		//Get the information that will go through the sender
 		params = new JSONObject();
 		params.put("Angle to be moved on x-axis", xAngle);
