@@ -55,19 +55,25 @@ public class CameraLineOfSight {
 		
 		double[] referenceLine = new double[] {0, 0, 0};
 		
-		double[] s = new double[] {tagLocation[0]-cameraLocation[0], tagLocation[1]-cameraLocation[1], tagLocation[2]-cameraLocation[2]};
+		//Angle of Elevation
+		double distanceCameratoObject1 = Math.sqrt(Math.pow(cameraLocation[0]-referenceLine[0],2) + Math.pow(cameraLocation[1]-referenceLine[1],2) + Math.pow(cameraLocation[2]-referenceLine[2],2));
+		double distanceCameratoObject2 = Math.sqrt(Math.pow(cameraLocation[0]-tagLocation[0],2) + Math.pow(cameraLocation[1]-tagLocation[1],2) + Math.pow(cameraLocation[2]-tagLocation[2],2));
 		
-		double magnitude = Math.sqrt(Math.pow(s[0],2) + Math.pow(s[1],2) + Math.pow(s[2],2));
+		double cameraHeight = cameraLocation[2];
+		double object1Height = referenceLine[2];
+		double object2Height = tagLocation[2];
 		
-		double mag_i = (s[0] / magnitude) * (Math.PI/180); //converted from degrees to radians
-		double mag_j = (s[1] / magnitude) * (Math.PI/180);
-		double mag_k = (s[2] / magnitude) * (Math.PI/180);
+		double theta1 = Math.acos((Math.abs(cameraHeight-object1Height)) / distanceCameratoObject1);
+		double theta2 = Math.acos((Math.abs(cameraHeight-object2Height)) / distanceCameratoObject2);
 		
-		double a = Math.acos(mag_i);
-		double b = Math.acos(mag_j);
-		double c = Math.acos(mag_k);
+		double updownAngle = Math.abs(theta2-theta1);
 		
-		double[] angles = new double[] {a, b, c};
+		//SidewaysAngle
+		double distanceBetweenObjects = Math.sqrt(Math.pow(referenceLine[0]-tagLocation[0],2) + Math.pow(referenceLine[1]-tagLocation[1],2) + Math.pow(referenceLine[2]-tagLocation[2],2));
+		
+		double sidewaysAngle = Math.acos((Math.pow(distanceCameratoObject1,2) + Math.pow(distanceCameratoObject2,2) - Math.pow(distanceBetweenObjects,2)) / (2*distanceCameratoObject1*distanceCameratoObject2));
+		
+		double[] angles = new double[] {updownAngle, sidewaysAngle};
 		
 		return angles;  //send these 3 angles to the camera controlling rpi to move the motors based on these angles
 		

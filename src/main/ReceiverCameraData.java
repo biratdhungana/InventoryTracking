@@ -21,9 +21,8 @@ public class ReceiverCameraData {
 		System.out.println("z = " + entranceBoundary[0] + "x+" + entranceBoundary[1]+ "y+" + entranceBoundary[2]);
 		
 		double[] angles = camera.angles();
-		System.out.println("Angle on x axis (in radians) = " + angles[0]);
-		System.out.println("Angle on y axis (in radians) = " + angles[1]);
-		System.out.println("Angle on z axis (in radians) = " + angles[2]);
+		System.out.println("Up-Down Angle (in radians) = " + angles[0]);
+		System.out.println("Sideways Angle (in radians) = " + angles[1]);
 		
 		
 	      // Check the arguments
