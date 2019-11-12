@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <iostream>
+#include <cmath>
+
 using namespace std;
 
 #define OUTPUT_PIN_1 14
@@ -62,7 +64,7 @@ class StepperMotor
 		currentState++;
 	}
 	void halfStepCCW(){
-		if(currentState == 0){
+		if(currentState == -1){
 			currentState = 7;
 		}
 	
@@ -97,6 +99,33 @@ class StepperMotor
 	}
 };
 
+void turnMotorsToAngles(StepperMotor horiMotor, StepperMotor vertiMotor, double horiAngle, double vertiAngle){
+
+	while(fabs(horiMotor.getAngle()) <= fabs(horiAngle) && fabs(vertiMotor.getAngle()) <= fabs(vertiAngle)){
+		if(horiMotor.getAngle() < horiAngle){
+			horiMotor.halfStepCW();
+			horiMotor.setAngle(horiMotor.getAngle()+0.088);//motor turns 0.088 degrees per step
+			usleep(500);
+		}
+		else if(horiMotor.getAngle() > horiAngle){
+			horiMotor.halfStepCCW();
+			horiMotor.setAngle(horiMotor.getAngle()-0.088);//motor turns 0.088 degrees per step
+			usleep(500);
+		}
+
+		if(vertiMotor.getAngle() < vertiAngle){
+			vertiMotor.halfStepCW();
+			vertiMotor.setAngle(vertiMotor.getAngle()+0.088);//motor turns 0.088 degrees per step
+			usleep(500);
+		}
+		else if(vertiMotor.getAngle() > vertiAngle){
+			vertiMotor.halfStepCCW();
+			vertiMotor.setAngle(vertiMotor.getAngle()-0.088);//motor turns 0.088 degrees per step 	
+		}
+
+	}
+}
+
 int main(){
 	
 	StepperMotor horiMotor;
@@ -105,10 +134,7 @@ int main(){
 	vertiMotor.initMotor(OUTPUT_PIN_5, OUTPUT_PIN_6, OUTPUT_PIN_7, OUTPUT_PIN_8);
 	
 	//			hori, verti
-	double inputAngles[2] = {180, 180};
-	while(horiMotor.getAngle() <= inputAngles[0]){
-		horiMotor.halfStepCW();
-		horiMotor.setAngle(horiMotor.getAngle()+0.088);//motor turns 0.088 degrees per step
-		usleep(800);
-	}
+	double inputAngles[2] = {45, 180};
+	turnMotorsToAngles(horiMotor, vertiMotor, inputAngles[0], inputAngles[1]);	
+
 }
