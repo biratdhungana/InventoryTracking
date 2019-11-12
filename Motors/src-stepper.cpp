@@ -1,10 +1,18 @@
 #include <pigpio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <iostream>
+using namespace std;
 
 #define OUTPUT_PIN_1 14
 #define OUTPUT_PIN_2 15
 #define OUTPUT_PIN_3 18
-#define OUTPUT_PIN_4 25
+#define OUTPUT_PIN_4 23
+
+#define OUTPUT_PIN_5 4
+#define OUTPUT_PIN_6 17
+#define OUTPUT_PIN_7 27
+#define OUTPUT_PIN_8 22
 
 class StepperMotor
 {
@@ -19,43 +27,88 @@ class StepperMotor
 		{0,0,0,1},
 		{1,0,0,1}
 	};
+	int pin1;
+	int pin2;
+	int pin3;
+	int pin4;
+
+	double currentAngle=0;
 
 	//initialize the first state. the state will be stored for each motor system.
 	int currentState = 0;
 
-	void updatePinsToCurrentState(){
-		gpioWrite(OUTPUT_PIN_1, halfStepSequence[currentState][0]);
-		gpioWrite(OUTPUT_PIN_2, halfStepSequence[currentState][1]);
-		gpioWrite(OUTPUT_PIN_3, halfStepSequence[currentState][2]);
-		gpioWrite(OUTPUT_PIN_4, halfStepSequence[currentState][3]);
+	double getAngle(){
+		return currentAngle;
 	}
 
-	void halfStep(){
-		currentState++;
+	void setAngle(double angle){
+		currentAngle = angle;
+	}
+
+
+	void updatePinsToCurrentState(){
+		gpioWrite(this->pin1,halfStepSequence[currentState][0]);
+		gpioWrite(this->pin2, halfStepSequence[currentState][1]);
+		gpioWrite(this->pin3, halfStepSequence[currentState][2]);
+		gpioWrite(this->pin4, halfStepSequence[currentState][3]);	
+	}
+
+	void halfStepCW(){
+		if(currentState == 8){
+			currentState = 0;
+		}
+
 		updatePinsToCurrentState();
+		currentState++;
+	}
+	void halfStepCCW(){
+		if(currentState == 0){
+			currentState = 7;
+		}
+	
+		updatePinsToCurrentState();	
+		currentState--;
 	}
 
 	void driverPinsOff(){
-		gpioWrite(OUTPUT_PIN_1, 0);
-		gpioWrite(OUTPUT_PIN_2, 0);
-		gpioWrite(OUTPUT_PIN_3, 0);
-		gpioWrite(OUTPUT_PIN_4, 0);
+		gpioWrite(this->pin1, 0);
+		gpioWrite(this->pin2, 0);
+		gpioWrite(this->pin3, 0);
+		gpioWrite(this->pin4, 0);
 	}
 
-	int initMotor(){
-		if(gpioInitialize() < 0){
+	int initMotor(int pin1, int pin2, int pin3, int pin4){
+		
+		if(gpioInitialise() < 0){
 			exit(1);
 		}
-		gpioSetMode(OUTPUT_PIN_1, PI_OUTPUT);
-		gpioSetMode(OUTPUT_PIN_2, PI_OUTPUT);
-		gpioSetMode(OUTPUT_PIN_3, PI_OUTPUT);
-		gpioSetMode(OUTPUT_PIN_4, PI_OUTPUT);
+
+		this->pin1 = pin1;
+		this->pin2 = pin2;
+		this->pin3 = pin3;
+		this->pin4 = pin4;
+	 
+		gpioSetMode(pin1, PI_OUTPUT);
+		gpioSetMode(pin2, PI_OUTPUT);
+		gpioSetMode(pin3, PI_OUTPUT);
+		gpioSetMode(pin4, PI_OUTPUT);
+		
 		driverPinsOff();
 	}
 };
 
 int main(){
-
+	
 	StepperMotor horiMotor;
-	horiMotor.initMotor();
+	StepperMotor vertiMotor;
+	horiMotor.initMotor(OUTPUT_PIN_1, OUTPUT_PIN_2, OUTPUT_PIN_3, OUTPUT_PIN_4);
+	vertiMotor.initMotor(OUTPUT_PIN_5, OUTPUT_PIN_6, OUTPUT_PIN_7, OUTPUT_PIN_8);
+	
+	//			hori, verti
+	double inputAngles[2] = {180, 180};
+	while(horiMotor.getAngle() <= inputAngles[0]){
+		horiMotor.halfStepCW();
+		horiMotor.setAngle(horiMotor.getAngle()+0.088);//motor turns 0.088 degrees per step
+		usleep(800);
+	}
 }
