@@ -10,11 +10,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity{
 
     Button loginButton, resetButton;
     EditText userName, password;
     int loginLimit = 3; //Limit for number of logins
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,9 @@ public class LoginActivity extends AppCompatActivity {
 
                     Toast.makeText(getApplicationContext(),"Success!",Toast.LENGTH_LONG).show();
 
-                    //TODO: take to the next activity
+                    //Take to the next activity
+                    Intent choicePage = new Intent(LoginActivity.this,ChoiceActivity.class);
+                    startActivity(choicePage);
                 }
                 else{ //Wrong Credentials
                     loginLimit--;
@@ -68,4 +71,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
+
 }

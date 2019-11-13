@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">C2E3</string>
+    <string name="title_activity_choice">ChoiceActivity</string>
 </resources>
