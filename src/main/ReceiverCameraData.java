@@ -24,13 +24,6 @@ public class ReceiverCameraData {
 		System.out.println("Up-Down Angle (in radians) = " + angles[0]);
 		System.out.println("Sideways Angle (in radians) = " + angles[1]);
 		
-		
-	      // Check the arguments
-	    if( args.length != 2 )   //if the number of arguments do not include port and host
-	    {
-	       System.out.println( "usage: Receiver port" ) ;
-	       return ;
-	    }
 	      
 	    DatagramSocket socket = null ;  
 	      
@@ -42,14 +35,18 @@ public class ReceiverCameraData {
 	         
 	         for( ;; )
 	         {
-	        	 //receive data from app regarding which RF tag (inventory #) the camera needs to track 
+	        	 //receive data from app regarding which RF tag (inventory #) the camera needs to track
+	        	 /*
 	        	 ReceiverApp rfTagData = new ReceiverApp();
 	        	 rfTagData.receive(6000);
+	        	 */
 	        	 
 	        	 //send data to cameras regarding which RF tag (inventory #) the camera needs to track
 	        	 SendToCamera sendCamera = new SendToCamera();
-	        	 sendCamera.send(angles[0], angles[1], angles[2]);
+	        	 sendCamera.send(angles[0], angles[1]);
+	        	 System.out.println("Sent data");
 	        	 
+	        	 /*
 	        	 //receive snapshots/livestream data from cameras
 		         DatagramPacket packet = new DatagramPacket( new byte[PACKETSIZE], PACKETSIZE ) ;   //initialize packet of data to be received
 	             socket.receive( packet ) ;     //receive data from camera
@@ -58,6 +55,7 @@ public class ReceiverCameraData {
 	             Database db = new Database();
 	             SenderApp sender = new SenderApp();     //initialize sender
 	             sender.send(db, "134.117.59.135", 6000);
+	             */
 	             
 	             
 	         }
