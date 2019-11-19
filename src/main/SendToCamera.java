@@ -66,6 +66,7 @@ public JSONObject params;
             DatagramPacket request
                     = new DatagramPacket(angleData, angleData.length, aHost, serverPort);
             aSocket.send(request);
+            System.out.println("Inside function");
         } catch (SocketException e) {
             System.out.println("Socket: " + e.getMessage());
         } catch (IOException e) {

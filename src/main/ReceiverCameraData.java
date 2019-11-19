@@ -1,5 +1,6 @@
 package main;
 import java.net.*;
+import java.util.Arrays;
 
 public class ReceiverCameraData {
 
@@ -41,10 +42,15 @@ public class ReceiverCameraData {
 	        	 rfTagData.receive(6000);
 	        	 */
 	        	 
+	        	 System.out.println("Waiting to receive");
+	        	 DatagramPacket packet = new DatagramPacket(new byte[10], 10);
+	        	 socket.receive(packet);
+	        	 System.out.println("Received data = " + Arrays.toString(packet.getData()));
+	        	 
 	        	 //send data to cameras regarding which RF tag (inventory #) the camera needs to track
-	        	 SendToCamera sendCamera = new SendToCamera();
-	        	 sendCamera.send(angles[0], angles[1]);
-	        	 System.out.println("Sent data");
+	        	 //SendToCamera sendCamera = new SendToCamera();
+	        	 //sendCamera.send(angles[0], angles[1]);
+	        	 //System.out.println("Sent data");
 	        	 
 	        	 /*
 	        	 //receive snapshots/livestream data from cameras

@@ -15,6 +15,7 @@ public class ReceiverApp {
 	    {
 	         // Convert the argument to ensure that is it valid
 	         socket = new DatagramSocket(port) ;
+	         
 	    }
 		catch( Exception e )
 		{
