@@ -32,7 +32,8 @@ public JSONObject params;
         return bytes;
     }
 	
-	/*public void send(double upDownAngle, double sidewaysAngle) throws JSONException {
+	/*
+	public void send(double upDownAngle, double sidewaysAngle) throws JSONException {
 		//Get the information that will go through the sender
 		try {
 			@SuppressWarnings("resource")
@@ -48,7 +49,9 @@ public JSONObject params;
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		}*/
+		}
+	*/
+	
 	
 	public void send(double upDownAngle, double sidewaysAngle) {
 		DatagramSocket aSocket = null;
@@ -60,7 +63,7 @@ public JSONObject params;
             
             byte[] angleData = doubleToByteArray(upDownAngle, sidewaysAngle);
             
-            byte[] address = {(byte) 134, 117, 39, (byte) 197};
+            byte[] address = {(byte) 192, (byte) 168, (byte) 1, (byte) 100};
             InetAddress aHost = InetAddress.getByAddress(address);
             int serverPort = 6000;
             DatagramPacket request
@@ -77,4 +80,5 @@ public JSONObject params;
             }
         }
 	}
+	
 }
