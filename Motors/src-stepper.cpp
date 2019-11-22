@@ -10,7 +10,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <string.h>
-#define PORT 6001
+#define PORT 8008
 
 using namespace std;
 
@@ -142,8 +142,8 @@ int CommsRecieve(){
 	int opt =1;
 	int addrlen = sizeof(address);
 	char buffer[1024] = {0};
-	char *hello = "bonjour monsieur";
-	
+	char *hello = "Hello form server";
+
 	cout << "entered comms" << endl;
 
 	if((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0){
@@ -162,24 +162,11 @@ int CommsRecieve(){
 	address.sin_addr.s_addr = INADDR_ANY;
 	address.sin_port = htons(PORT);
 	
-	cout << &address.sin_family << endl;
-	cout << &address.sin_addr.s_addr << endl;
-	cout << &address.sin_port << endl;
-	cout << &address.sin_addr << endl;
-
-	inet_aton("192.168.1.102", &address.sin_addr);
-	
-	//address.sin_addr.s_addr=inet_addr("192.168.1.102");
-
-	cout << "bp1" << endl;
-
 	if(bind(server_fd, (struct sockaddr *)&address, sizeof(address))<0){
 		perror("bind failed");
 		exit(EXIT_FAILURE);
 	}
 
-	cout << "bp2" << endl;
-	
 	if(listen(server_fd, 3) <0){
 		perror("listen");
 		exit(EXIT_FAILURE);
@@ -190,15 +177,13 @@ int CommsRecieve(){
 	if((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen))<0){
 		perror("accept");
 		exit(EXIT_FAILURE);
-		cout << "sockaddr fail" << endl;
 	}
 	cout << "bp4" <<endl;
 
 	valread = read(new_socket, buffer, 1024);
 	cout << buffer << endl;
-	cout << "got the data" << endl;
 	send(new_socket, hello, strlen(hello), 0);
-	cout << "message sent";
+	cout << "sent the hello" << endl;
 	return 0;
 }
 
