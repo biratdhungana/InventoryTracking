@@ -136,7 +136,7 @@ void turnMotorsToAngles(StepperMotor horiMotor, StepperMotor vertiMotor, double 
 	}
 }
 
-int CommsRecieve(){
+void CommsRecieve(char *dataOut){
 	int server_fd, new_socket, valread;
 	struct sockaddr_in address;
 	int opt =1;
@@ -157,7 +157,6 @@ int CommsRecieve(){
 		exit(EXIT_FAILURE);
 	}	
 
-
 	address.sin_family = AF_INET;
 	address.sin_addr.s_addr = INADDR_ANY;
 	address.sin_port = htons(PORT);
@@ -172,34 +171,45 @@ int CommsRecieve(){
 		exit(EXIT_FAILURE);
 	}
 
-	cout << "bp3" << endl;
-
 	if((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen))<0){
 		perror("accept");
 		exit(EXIT_FAILURE);
 	}
-	cout << "bp4" <<endl;
+	cout << "comms connected" << endl;
 
 	valread = read(new_socket, buffer, 1024);
 	cout << buffer << endl;
 	send(new_socket, hello, strlen(hello), 0);
 	cout << "sent the hello" << endl;
-	return 0;
+	dataOut = buffer;
 }
 
 int main(){
-	cout << "in main" <<endl;
-	CommsRecieve();
-	cout <<"comms over" <<endl;
+	
+	char dataOut[1024] = "uninitilized";
+
+	CommsRecieve(dataOut);
+
+	cout << "bp1" << endl;
 
 	StepperMotor horiMotor;
 	StepperMotor vertiMotor;
 	horiMotor.initMotor(OUTPUT_PIN_1, OUTPUT_PIN_2, OUTPUT_PIN_3, OUTPUT_PIN_4);
 	vertiMotor.initMotor(OUTPUT_PIN_5, OUTPUT_PIN_6, OUTPUT_PIN_7, OUTPUT_PIN_8);
-	
+	cout << "bp2" << endl;	
 	//			hori, verti
 	double inputAngles[2] = {180, -360};
+	cout << dataOut << endl;
+
+	int dataSize = sizeof(dataOut)/sizeof(char);
+	string dataString = dataOut;
+
+	cout << dataString << endl;
+
+	cout << "the angles are" << dataString << endl;
+
 	turnMotorsToAngles(horiMotor, vertiMotor, inputAngles[0], inputAngles[1]);	
+
 
 }
 
