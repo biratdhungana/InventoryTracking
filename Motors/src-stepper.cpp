@@ -136,7 +136,7 @@ void turnMotorsToAngles(StepperMotor horiMotor, StepperMotor vertiMotor, double 
 	}
 }
 
-void CommsRecieve(char *dataOut){
+string CommsRecieve(){
 	int server_fd, new_socket, valread;
 	struct sockaddr_in address;
 	int opt =1;
@@ -181,35 +181,42 @@ void CommsRecieve(char *dataOut){
 	cout << buffer << endl;
 	send(new_socket, hello, strlen(hello), 0);
 	cout << "sent the hello" << endl;
-	dataOut = buffer;
+
+	string dataOut = buffer;
+	return dataOut;
 }
 
 int main(){
-	
-	char dataOut[1024] = "uninitilized";
+	bool terminate = false;
+	//			hori, verti
+	double inputAngles[2] = {0, 0};
 
-	CommsRecieve(dataOut);
-
-	cout << "bp1" << endl;
+	string dataOut = "uninitialized";
 
 	StepperMotor horiMotor;
 	StepperMotor vertiMotor;
 	horiMotor.initMotor(OUTPUT_PIN_1, OUTPUT_PIN_2, OUTPUT_PIN_3, OUTPUT_PIN_4);
 	vertiMotor.initMotor(OUTPUT_PIN_5, OUTPUT_PIN_6, OUTPUT_PIN_7, OUTPUT_PIN_8);
-	cout << "bp2" << endl;	
-	//			hori, verti
-	double inputAngles[2] = {180, -360};
-	cout << dataOut << endl;
+	
+	while(terminate ==false){
+	
+		dataOut = CommsRecieve();
 
-	int dataSize = sizeof(dataOut)/sizeof(char);
-	string dataString = dataOut;
+		cout << dataOut << endl;
 
-	cout << dataString << endl;
+		std::string delimeter = " ";
+		size_t pos = 0;
+		std::string horiAngle;
+		std::string vertiAngle;
 
-	cout << "the angles are" << dataString << endl;
+		horiAngle = dataOut.substr(0, pos);
+		dataOut.erase(0, pos+delimeter.length());
+		vertiAngle = dataOut.substr(0, pos);	
+			
+		cout << "the angles are" << dataOut << endl;
+		turnMotorsToAngles(horiMotor, vertiMotor, inputAngles[0], inputAngles[1]);	
 
-	turnMotorsToAngles(horiMotor, vertiMotor, inputAngles[0], inputAngles[1]);	
-
+	}
 
 }
 
