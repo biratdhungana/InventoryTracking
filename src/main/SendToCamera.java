@@ -2,7 +2,11 @@ package main;
 
 import org.json.*;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.*;
 import java.nio.ByteBuffer;
@@ -52,8 +56,8 @@ public JSONObject params;
 		}
 	*/
 	
-	
-	public void send(double upDownAngle, double sidewaysAngle) {
+	/*
+	public void sendTo(double upDownAngle, double sidewaysAngle) {
 		DatagramSocket aSocket = null;
         try {
             aSocket = new DatagramSocket();
@@ -80,5 +84,28 @@ public JSONObject params;
             }
         }
 	}
+	*/
+	public void send(double upDownAngle, double sidewaysAngle) throws Exception
+	  {
+	      ServerSocket sersock = new ServerSocket(8008);
+	      System.out.println("Server  ready for chatting");
+	      Socket sock = sersock.accept( );                          
+	                              // reading from keyboard (keyRead object)
+	      //BufferedReader keyRead = new BufferedReader(new InputStreamReader(System.in));
+		                      // sending to client (pwrite object)
+	      OutputStream ostream = sock.getOutputStream(); 
+	      PrintWriter pwrite = new PrintWriter(ostream, true);
+	 
+	      String[] sendMessage;               
+	      while(true)
+	      {
+	        String[] angleData = new String[] {Double.toString(upDownAngle), Double.toString(sidewaysAngle)};
+	        sendMessage = angleData;
+	        pwrite.println(sendMessage);             
+	        pwrite.flush();
+	      }               
+	    }                    
+	
+
 	
 }
