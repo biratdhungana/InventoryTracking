@@ -1,6 +1,5 @@
 package main;
 
-import org.json.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +12,6 @@ import java.nio.ByteBuffer;
 
 public class SendToCamera {
 
-public JSONObject params;
 	
 	public SendToCamera() {
 		
@@ -98,14 +96,14 @@ public JSONObject params;
 	      OutputStream ostream = sock.getOutputStream(); 
 	      PrintWriter pwrite = new PrintWriter(ostream, true);
 	      String sendMessage;               
-	      while(true)
-	      {
+	      //while(true)
+	     // {
 	        String angleData = new String(Double.toString(upDownAngle) + " " + Double.toString(sidewaysAngle));
-	        System.out.println("String is " + angleData);
+	        System.out.println("Sent Data: " + angleData);
 	        sendMessage = angleData;
 	        pwrite.println(sendMessage);             
 	        pwrite.flush();
-	      }               
+	      //}               
 	    }                    
 	
 

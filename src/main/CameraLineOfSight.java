@@ -7,8 +7,8 @@ import java.util.*;
 
 public class CameraLineOfSight {
 
-	public static int[] tagLocation = new int[]{50,5,60};
-	public static int[] cameraLocation = new int[]{10,20,30};
+	public static int[] tagLocation = new int[]{50,10,90};
+	public static int[] cameraLocation = new int[]{30,5,20};
 	
 	public static int[] doorEdge1 = new int[]{10,20,0};
 	public static int[] doorEdge2 = new int[]{15,40,7};
@@ -66,12 +66,13 @@ public class CameraLineOfSight {
 		double theta1 = Math.acos((Math.abs(cameraHeight-object1Height)) / distanceCameratoObject1);
 		double theta2 = Math.acos((Math.abs(cameraHeight-object2Height)) / distanceCameratoObject2);
 		
-		double updownAngle = Math.abs(theta2-theta1);
+		double updownAngle = (Math.abs(theta2-theta1))*180/Math.PI;
 		
 		//SidewaysAngle
 		double distanceBetweenObjects = Math.sqrt(Math.pow(referenceLine[0]-tagLocation[0],2) + Math.pow(referenceLine[1]-tagLocation[1],2) + Math.pow(referenceLine[2]-tagLocation[2],2));
 		
-		double sidewaysAngle = Math.acos((Math.pow(distanceCameratoObject1,2) + Math.pow(distanceCameratoObject2,2) - Math.pow(distanceBetweenObjects,2)) / (2*distanceCameratoObject1*distanceCameratoObject2));
+		double sidewaysAngle = (Math.acos((Math.pow(distanceCameratoObject1,2) + Math.pow(distanceCameratoObject2,2) - Math.pow(distanceBetweenObjects,2))/(2*distanceCameratoObject1*distanceCameratoObject2)))*180/Math.PI;
+	
 		
 		double[] angles = new double[] {updownAngle, sidewaysAngle};
 		
