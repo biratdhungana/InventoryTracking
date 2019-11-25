@@ -31,7 +31,7 @@ public class ReceiverCameraData {
 	    try
 	    {
 	         // Convert the argument to ensure that is it valid
-	         socket = new DatagramSocket(4445) ;                       //socket
+	         //socket = new DatagramSocket(4445) ;                       //socket
 
 	         
 	         for( ;; )

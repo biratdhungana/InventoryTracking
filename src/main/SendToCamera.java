@@ -87,19 +87,21 @@ public JSONObject params;
 	*/
 	public void send(double upDownAngle, double sidewaysAngle) throws Exception
 	  {
-	      ServerSocket sersock = new ServerSocket(8008);
+	      Socket sock = new Socket("192.168.1.102", 8008);
 	      System.out.println("Server  ready for chatting");
-	      Socket sock = sersock.accept( );                          
+	      //Socket sock = sersock.accept( );                          
 	                              // reading from keyboard (keyRead object)
 	      //BufferedReader keyRead = new BufferedReader(new InputStreamReader(System.in));
 		                      // sending to client (pwrite object)
+	      System.out.println("Socket created and Accepted.");
+	      System.out.println("Connection established");
 	      OutputStream ostream = sock.getOutputStream(); 
 	      PrintWriter pwrite = new PrintWriter(ostream, true);
-	 
-	      String[] sendMessage;               
+	      String sendMessage;               
 	      while(true)
 	      {
-	        String[] angleData = new String[] {Double.toString(upDownAngle), Double.toString(sidewaysAngle)};
+	        String angleData = new String(Double.toString(upDownAngle) + " " + Double.toString(sidewaysAngle));
+	        System.out.println("String is " + angleData);
 	        sendMessage = angleData;
 	        pwrite.println(sendMessage);             
 	        pwrite.flush();
