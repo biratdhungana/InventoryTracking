@@ -205,15 +205,14 @@ int main(){
 		cout << dataOut << endl;
 
 		std::string delimeter = " ";
-		size_t pos = 0;
-		std::string horiAngle;
-		std::string vertiAngle;
+		size_t pos = dataOut.find(delimeter);
 
-		horiAngle = dataOut.substr(0, pos);
+		inputAngles[0] = stod(dataOut.substr(0, pos));
 		dataOut.erase(0, pos+delimeter.length());
-		vertiAngle = dataOut.substr(0, pos);	
-			
-		cout << "the angles are" << dataOut << endl;
+		inputAngles[1] = stod(dataOut.substr(0, pos));	
+		
+		
+		cout << "the angles are " << inputAngles[0] << " and " << inputAngles[1] << endl;
 		turnMotorsToAngles(horiMotor, vertiMotor, inputAngles[0], inputAngles[1]);	
 
 	}
