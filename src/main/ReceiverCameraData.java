@@ -1,6 +1,7 @@
 package main;
 import java.net.*;
 import java.util.Arrays;
+import java.io.*;
 
 public class ReceiverCameraData {
 
@@ -13,17 +14,17 @@ public class ReceiverCameraData {
 
 	public static void main( String args[] )
 	{
-		CameraLineOfSight camera = new CameraLineOfSight();
+		CameraLineOfSight cameraPrint = new CameraLineOfSight();
 	      
-	    int[] lineofsight = camera.equationOfLine(camera.cameraLocation, camera.tagLocation);
+	    int[] lineofsight = cameraPrint.equationOfLine(cameraPrint.cameraLocation, cameraPrint.tagLocation);
 		System.out.println("z = " + lineofsight[0] + "x+" + lineofsight[1]+ "y+" + lineofsight[2]);
 			
-		int[] entranceBoundary = camera.equationOfLine(camera.doorEdge1, camera.doorEdge2);
+		int[] entranceBoundary = cameraPrint.equationOfLine(cameraPrint.doorEdge1, cameraPrint.doorEdge2);
 		System.out.println("z = " + entranceBoundary[0] + "x+" + entranceBoundary[1]+ "y+" + entranceBoundary[2]);
 		
-		double[] angles = camera.angles();
-		System.out.println("Up-Down Angle (in radians) = " + angles[0]);
-		System.out.println("Sideways Angle (in radians) = " + angles[1]);
+		double[] anglesPrint = cameraPrint.angles();
+		System.out.println("Up-Down Angle (in radians) = " + anglesPrint[0]);
+		System.out.println("Sideways Angle (in radians) = " + anglesPrint[1]);
 		
 	      
 	    DatagramSocket socket = null ;  
@@ -51,9 +52,25 @@ public class ReceiverCameraData {
 	        	 */
 	        	 
 	        	 //send data to cameras regarding which RF tag (inventory #) the camera needs to track
+			 CameraLineOfSight camera = new CameraLineOfSight();
+			 double[] angles = camera.angles();
+			  
 	        	 SendToCamera sendCamera = new SendToCamera();
 	        	 sendCamera.send(angles[0], angles[1]);
 	        	 System.out.println("Sent data");
+			 
+			 camera.referenceLine[0] = camera.tagLocation[0];
+			 camera.referenceLine[1] = camera.tagLocation[1];
+			 camera.referenceLine[2] = camera.tagLocation[2]; 
+
+			 System.out.println("Please input new coordinates in the form of 'x y z'");
+			 BufferedReader input = new BufferedReader(new InputStreamReader(System.in));   //keyboard input for x,y,z coordinates
+			 String inputString = input.readLine(); 
+			 String[] coordinates = inputString.split(" ");
+			 
+			 camera.tagLocation[0] = Integer.parseInt(coordinates[0]);   //update x coordinate to new input value
+			 camera.tagLocation[1] = Integer.parseInt(coordinates[1]);   //update y coordinate to new input value
+			 camera.tagLocation[2] = Integer.parseInt(coordinates[2]);   //update z coordinate to new input value 
 	        	 
 	        	 /*
 	        	 //receive snapshots/livestream data from cameras

@@ -12,6 +12,8 @@ public class CameraLineOfSight {
 	
 	public static int[] doorEdge1 = new int[]{10,20,0};
 	public static int[] doorEdge2 = new int[]{15,40,7};
+
+	public static double[] referenceLine = new double[]{0, 0, 0};
 	
 	public CameraLineOfSight() {
 
@@ -52,8 +54,6 @@ public class CameraLineOfSight {
 		
 		//Calculated the angles for the movement of the camera based on the following link:
 		//http://www.nabla.hr/PC-LinePlaneIn3DSp2.htm
-		
-		double[] referenceLine = new double[] {0, 0, 0};
 		
 		//Angle of Elevation
 		double distanceCameratoObject1 = Math.sqrt(Math.pow(cameraLocation[0]-referenceLine[0],2) + Math.pow(cameraLocation[1]-referenceLine[1],2) + Math.pow(cameraLocation[2]-referenceLine[2],2));
