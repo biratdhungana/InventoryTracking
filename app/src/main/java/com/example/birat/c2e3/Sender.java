@@ -1,11 +1,11 @@
 package com.example.birat.c2e3;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
-import java.io.DataOutputStream;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 
 public class Sender implements Runnable{
     int port;
@@ -42,10 +42,13 @@ public class Sender implements Runnable{
     @Override
     public void run() {
 
+
         try {
 
             try{
+                System.out.println("Trying to create a socket!");
                 socket = new Socket(ip, port);
+                System.out.println("Socket created!");
             }catch (SocketException e){
                 e.printStackTrace();
             }
@@ -56,9 +59,9 @@ public class Sender implements Runnable{
             while (true) {
                 cmdOut.writeBytes(message); //Convert the command to bytes and send them out through the stream.
 
-                //Receiving ACK from the input stream
-                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                messageReceived = in.readLine();
+                //Receiving ACK from the input stream (NOT NEEDED FOR US)
+                //BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                //messageReceived = in.readLine();
 
                 socket.close();
             }//end while(true)
