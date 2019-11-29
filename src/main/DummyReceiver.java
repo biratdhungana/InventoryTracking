@@ -6,7 +6,7 @@ public class DummyReceiver
 {
   public static void main(String[] args) throws Exception
   {
-      ServerSocket sersock = new ServerSocket(3000);
+      ServerSocket sersock = new ServerSocket(8008);
       System.out.println("Server  ready for chatting");
       Socket sock = sersock.accept( );                          
                               // reading from keyboard (keyRead object)
