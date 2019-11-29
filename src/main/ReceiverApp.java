@@ -1,6 +1,8 @@
 package main;
 
-import java.net.DatagramSocket;
+
+import java.io.*;
+import java.net.*;
 
 public class ReceiverApp {
 
@@ -8,18 +10,21 @@ public class ReceiverApp {
 
 	}
 	
-	public void receive(int port) {
+	public void receive() throws Exception {
 		
-		DatagramSocket socket = null ;
-		try
-	    {
-	         // Convert the argument to ensure that is it valid
-	         socket = new DatagramSocket(port) ;
-	         
-	    }
-		catch( Exception e )
-		{
-		    System.out.println( e ) ;
-		}
+		ServerSocket sersock = new ServerSocket(8008);
+	      System.out.println("Server  ready for chatting");
+	      Socket sock = sersock.accept( );                          
+	      InputStream istream = sock.getInputStream();
+	      BufferedReader receiveRead = new BufferedReader(new InputStreamReader(istream));
+	 
+	      String receiveMessage;               
+	      while(true)
+	      {
+	        if((receiveMessage = receiveRead.readLine()) != null)  
+	        {
+	           System.out.println(receiveMessage);         
+	        }         
+	      }               
 	}
 }

@@ -3,14 +3,67 @@ import java.net.*;
 import java.util.Arrays;
 import java.io.*;
 
-public class ReceiverCameraData {
-
+public class ReceiverCameraData implements Runnable {
+	
+	Thread sendCameraData;
+	Thread receiveCameraData;
+	Thread sendAppData;
+	Thread receiveFromApp;
 
 	public ReceiverCameraData() {
 
+		this.sendCameraData = new Thread(this,"sendCameraData");
+		this.receiveCameraData = new Thread(this, "receiveCameraData"); 
+		this.sendAppData = new Thread(this,"sendAppData");
+		this.receiveFromApp = new Thread(this, "receiveFromApp");
 	}
 	
-	private final static int PACKETSIZE = 100 ;
+	public void start()
+	{
+		System.out.println("Server Running");
+		this.sendCameraData.start();
+		this.receiveFromApp.start();
+		this.sendAppData.start();
+		this.receiveFromApp.start();
+	}
+	
+	public void run() {
+		// TODO Auto-generated method stub
+		
+		if(Thread.currentThread().getName().equals("sendCameraData"))
+		{
+			CameraLineOfSight camera = new CameraLineOfSight();
+       	 	double[] angles = camera.angles();
+       	 	
+       	 	SendToCamera sendCamera = new SendToCamera();
+       	 	try {
+				sendCamera.sendAngles(angles[0], angles[1]);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+       	 	
+       	 	
+		}
+		else if(Thread.currentThread().getName().equals("receiveCameraData"))
+		{
+			
+		}
+		else if(Thread.currentThread().getName().equals("sendAppData"))
+		{
+			
+		}
+		else //receive from app
+		{
+			ReceiverApp rApp = new ReceiverApp();
+			try {
+				rApp.receive();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public static void main( String args[] )
 	{
@@ -52,25 +105,27 @@ public class ReceiverCameraData {
 	        	 */
 	        	 
 	        	 //send data to cameras regarding which RF tag (inventory #) the camera needs to track
-			 CameraLineOfSight camera = new CameraLineOfSight();
-			 double[] angles = camera.angles();
-			  
-	        	 SendToCamera sendCamera = new SendToCamera();
-	        	 sendCamera.send(angles[0], angles[1]);
-	        	 System.out.println("Sent data");
-			 
-			 camera.referenceLine[0] = camera.tagLocation[0];
-			 camera.referenceLine[1] = camera.tagLocation[1];
-			 camera.referenceLine[2] = camera.tagLocation[2]; 
 
-			 System.out.println("Please input new coordinates in the form of 'x y z'");
-			 BufferedReader input = new BufferedReader(new InputStreamReader(System.in));   //keyboard input for x,y,z coordinates
-			 String inputString = input.readLine(); 
-			 String[] coordinates = inputString.split(" ");
+	        	 //double[] angles = camera.angles();
+			  
+	        	 //SendToCamera sendCamera = new SendToCamera();
+	        	 //sendCamera.sendAngles(angles[0], angles[1]);
+	        	 CameraLineOfSight camera = new CameraLineOfSight();
+	        	 ReceiverCameraData program = new ReceiverCameraData();
+	        	 program.start();
 			 
-			 camera.tagLocation[0] = Integer.parseInt(coordinates[0]);   //update x coordinate to new input value
-			 camera.tagLocation[1] = Integer.parseInt(coordinates[1]);   //update y coordinate to new input value
-			 camera.tagLocation[2] = Integer.parseInt(coordinates[2]);   //update z coordinate to new input value 
+	        	 camera.referenceLine[0] = camera.tagLocation[0];
+				 camera.referenceLine[1] = camera.tagLocation[1];
+				 camera.referenceLine[2] = camera.tagLocation[2]; 
+	
+				 System.out.println("Please input new coordinates in the form of 'x y z'");
+				 BufferedReader input = new BufferedReader(new InputStreamReader(System.in));   //keyboard input for x,y,z coordinates
+				 String inputString = input.readLine(); 
+				 String[] coordinates = inputString.split(" ");
+				 
+				 camera.tagLocation[0] = Integer.parseInt(coordinates[0]);   //update x coordinate to new input value
+				 camera.tagLocation[1] = Integer.parseInt(coordinates[1]);   //update y coordinate to new input value
+				 camera.tagLocation[2] = Integer.parseInt(coordinates[2]);   //update z coordinate to new input value 
 	        	 
 	        	 /*
 	        	 //receive snapshots/livestream data from cameras

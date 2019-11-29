@@ -83,10 +83,10 @@ public class SendToCamera {
         }
 	}
 	*/
-	public void send(double upDownAngle, double sidewaysAngle) throws Exception
+	public void sendAngles(double upDownAngle, double sidewaysAngle) throws Exception
 	  {
 	      Socket sock = new Socket("192.168.1.102", 8008);
-	      System.out.println("Server  ready for chatting");
+	      System.out.println("Sending angles to Camera");
 	      //Socket sock = sersock.accept( );                          
 	                              // reading from keyboard (keyRead object)
 	      //BufferedReader keyRead = new BufferedReader(new InputStreamReader(System.in));
