@@ -13,7 +13,7 @@ public class ReceiverApp {
 	public void receive() throws Exception {
 		
 		ServerSocket sersock = new ServerSocket(8008);
-	      System.out.println("Server  ready for chatting");
+	      System.out.println("Server  ready to receive data from App");
 	      Socket sock = sersock.accept( );                          
 	      InputStream istream = sock.getInputStream();
 	      BufferedReader receiveRead = new BufferedReader(new InputStreamReader(istream));
@@ -23,7 +23,7 @@ public class ReceiverApp {
 	      {
 	        if((receiveMessage = receiveRead.readLine()) != null)  
 	        {
-	           System.out.println(receiveMessage);         
+	           System.out.println("Data received from App: " + receiveMessage);         
 	        }         
 	      }               
 	}

@@ -21,10 +21,11 @@ public class ReceiverCameraData implements Runnable {
 	public void start()
 	{
 		System.out.println("Server Running");
+		this.receiveFromApp.start();
 		this.sendCameraData.start();
-		this.receiveFromApp.start();
+		this.receiveCameraData.start();
 		this.sendAppData.start();
-		this.receiveFromApp.start();
+		
 	}
 	
 	public void run() {
