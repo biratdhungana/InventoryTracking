@@ -44,6 +44,29 @@ public class ReceiverCameraData implements Runnable {
 				e.printStackTrace();
 			}
        	 	
+       	 camera.referenceLine[0] = camera.tagLocation[0];
+		 camera.referenceLine[1] = camera.tagLocation[1];
+		 camera.referenceLine[2] = camera.tagLocation[2]; 
+
+		 System.out.println("Please input new coordinates in the form of 'x y z'");
+		 BufferedReader input = new BufferedReader(new InputStreamReader(System.in));   //keyboard input for x,y,z coordinates
+		 String inputString;
+		 
+		 try {
+			inputString = input.readLine();
+			String[] coordinates = inputString.split(" ");
+			
+			camera.tagLocation[0] = Integer.parseInt(coordinates[0]);   //update x coordinate to new input value
+			camera.tagLocation[1] = Integer.parseInt(coordinates[1]);   //update y coordinate to new input value
+			camera.tagLocation[2] = Integer.parseInt(coordinates[2]);   //update z coordinate to new input value 
+		  } catch (IOException e) {
+			  // TODO Auto-generated catch block
+			  e.printStackTrace();
+		  } 
+		 
+		 
+		 
+       	 	
        	 	
 		}
 		else if(Thread.currentThread().getName().equals("receiveCameraData"))
@@ -115,18 +138,7 @@ public class ReceiverCameraData implements Runnable {
 	        	 ReceiverCameraData program = new ReceiverCameraData();
 	        	 program.start();
 			 
-	        	 camera.referenceLine[0] = camera.tagLocation[0];
-				 camera.referenceLine[1] = camera.tagLocation[1];
-				 camera.referenceLine[2] = camera.tagLocation[2]; 
-	
-				 System.out.println("Please input new coordinates in the form of 'x y z'");
-				 BufferedReader input = new BufferedReader(new InputStreamReader(System.in));   //keyboard input for x,y,z coordinates
-				 String inputString = input.readLine(); 
-				 String[] coordinates = inputString.split(" ");
-				 
-				 camera.tagLocation[0] = Integer.parseInt(coordinates[0]);   //update x coordinate to new input value
-				 camera.tagLocation[1] = Integer.parseInt(coordinates[1]);   //update y coordinate to new input value
-				 camera.tagLocation[2] = Integer.parseInt(coordinates[2]);   //update z coordinate to new input value 
+	        	 
 	        	 
 	        	 /*
 	        	 //receive snapshots/livestream data from cameras
