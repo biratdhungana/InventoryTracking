@@ -12,7 +12,7 @@ public class ReceiverApp {
 	
 	public void receive() throws Exception {
 		
-		ServerSocket sersock = new ServerSocket(8008);
+		ServerSocket sersock = new ServerSocket(6001);
 	      System.out.println("Server  ready to receive data from App");
 	      Socket sock = sersock.accept( );                          
 	      InputStream istream = sock.getInputStream();

@@ -7,11 +7,11 @@ import java.util.*;
 
 public class CameraLineOfSight {
 
-	public static int[] tagLocation = new int[]{50,10,90};
-	public static int[] cameraLocation = new int[]{30,5,20};
+	public static double[] tagLocation = new double[]{50,10,90};
+	public static double[] cameraLocation = new double[]{30,5,20};
 	
-	public static int[] doorEdge1 = new int[]{10,20,0};
-	public static int[] doorEdge2 = new int[]{15,40,7};
+	public static double[] doorEdge1 = new double[]{10,20,0};
+	public static double[] doorEdge2 = new double[]{15,40,7};
 
 	public static double[] referenceLine = new double[]{0, 0, 0};
 	
@@ -19,31 +19,31 @@ public class CameraLineOfSight {
 
 	}
 		
-	public int[] getCameraLocation() {
+	public double[] getCameraLocation() {
 		return cameraLocation;
 	}
 	
-	public int[] getTagLocation() {
+	public double[] getTagLocation() {
 		return tagLocation;
 	}
 	
-	public static int[] equationOfLine(int[] cameraLocation, int[] tagLocation) {
+	public static double[] equationOfLine(double[] cameraLocation, double[] tagLocation) {
 		
 		//THIS METHOD MIGHT NOT BE NEEDED ANYMORE	
 		//No point in calculating equation of line if we can calculate the angles to move camera directly in angles method below
 		//This method might still be useful for calculation of walls of room and doorway
 		
 		//vector v = cameraLocation - tagLocation
-		int[] v = new int[] {tagLocation[0]-cameraLocation[0], tagLocation[1]-cameraLocation[1], tagLocation[2]-cameraLocation[2]};
+		double[] v = new double[] {tagLocation[0]-cameraLocation[0], tagLocation[1]-cameraLocation[1], tagLocation[2]-cameraLocation[2]};
 		//vector r (not required for calculation)
-		int[] r = new int[] {cameraLocation[0]+v[0], cameraLocation[1]+v[1], cameraLocation[2]+v[2]};
+		double[] r = new double[] {cameraLocation[0]+v[0], cameraLocation[1]+v[1], cameraLocation[2]+v[2]};
 		
 		//Equation of line in 3D space = ax+by+c
-		int a = v[1]*v[2];
-		int b = -v[0]*v[2];
-		int c = (cameraLocation[0]*v[1] - cameraLocation[1]*v[0])*v[2]+cameraLocation[2];
+		double a = v[1]*v[2];
+		double b = -v[0]*v[2];
+       		double c = (cameraLocation[0]*v[1] - cameraLocation[1]*v[0])*v[2]+cameraLocation[2];
 		
-		int[] equationCoordinates = new int[] {a, b, c};
+		double[] equationCoordinates = new double[] {a, b, c};
 		return equationCoordinates;
 		
 		//Information to be sent to Arduino: Angle in comparison to a reference point/line
@@ -82,10 +82,10 @@ public class CameraLineOfSight {
 	
 	public static void main(String[] args) {
 		
-		int[] lineofsight = equationOfLine(cameraLocation, tagLocation);
+		double[] lineofsight = equationOfLine(cameraLocation, tagLocation);
 		System.out.println("z = " + lineofsight[0] + "x" + lineofsight[1]+ "y" + lineofsight[2]);
 		
-		int[] entranceBoundary = equationOfLine(doorEdge1, doorEdge2);
+		double[] entranceBoundary = equationOfLine(doorEdge1, doorEdge2);
 		System.out.println("z = " + entranceBoundary[0] + "x" + entranceBoundary[1]+ "y" + entranceBoundary[2]);
 
 		

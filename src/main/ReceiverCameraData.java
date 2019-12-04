@@ -33,6 +33,9 @@ public class ReceiverCameraData implements Runnable {
 		
 		if(Thread.currentThread().getName().equals("sendCameraData"))
 		{
+			
+		for(;;){
+
 			CameraLineOfSight camera = new CameraLineOfSight();
        	 	double[] angles = camera.angles();
        	 	
@@ -64,7 +67,7 @@ public class ReceiverCameraData implements Runnable {
 			  e.printStackTrace();
 		  } 
 		 
-		 
+		} 
 		 
        	 	
        	 	
@@ -79,6 +82,7 @@ public class ReceiverCameraData implements Runnable {
 		}
 		else //receive from app
 		{
+		
 			ReceiverApp rApp = new ReceiverApp();
 			try {
 				rApp.receive();
@@ -86,6 +90,7 @@ public class ReceiverCameraData implements Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		
 		}
 	}
 
@@ -93,27 +98,25 @@ public class ReceiverCameraData implements Runnable {
 	{
 		CameraLineOfSight cameraPrint = new CameraLineOfSight();
 	      
-	    int[] lineofsight = cameraPrint.equationOfLine(cameraPrint.cameraLocation, cameraPrint.tagLocation);
-		System.out.println("z = " + lineofsight[0] + "x+" + lineofsight[1]+ "y+" + lineofsight[2]);
+	    double[] lineofsight = cameraPrint.equationOfLine(cameraPrint.cameraLocation, cameraPrint.tagLocation);
+	//	System.out.println("z = " + lineofsight[0] + "x+" + lineofsight[1]+ "y+" + lineofsight[2]);
 			
-		int[] entranceBoundary = cameraPrint.equationOfLine(cameraPrint.doorEdge1, cameraPrint.doorEdge2);
-		System.out.println("z = " + entranceBoundary[0] + "x+" + entranceBoundary[1]+ "y+" + entranceBoundary[2]);
+		double[] entranceBoundary = cameraPrint.equationOfLine(cameraPrint.doorEdge1, cameraPrint.doorEdge2);
+//		System.out.println("z = " + entranceBoundary[0] + "x+" + entranceBoundary[1]+ "y+" + entranceBoundary[2]);
 		
 		double[] anglesPrint = cameraPrint.angles();
-		System.out.println("Up-Down Angle (in radians) = " + anglesPrint[0]);
-		System.out.println("Sideways Angle (in radians) = " + anglesPrint[1]);
+		System.out.println("Vertical Angle = " + anglesPrint[0]);
+		System.out.println("Horizontal Angle = " + anglesPrint[1]);
 		
 	      
 	    DatagramSocket socket = null ;  
 	      
 	    try
 	    {
-	         // Convert the argument to ensure that is it valid
-	         //socket = new DatagramSocket(4445) ;                       //socket
 
 	         
-	         for( ;; )
-	         {
+	        // for( ;; )
+	        // {
 	        	 //receive data from app regarding which RF tag (inventory #) the camera needs to track
 	        	 /*
 	        	 ReceiverApp rfTagData = new ReceiverApp();
@@ -152,7 +155,7 @@ public class ReceiverCameraData implements Runnable {
 	             */
 	             
 	             
-	         }
+	         //}
 	    }
 	    catch( Exception e )
 		{
