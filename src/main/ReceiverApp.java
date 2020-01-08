@@ -21,10 +21,12 @@ public class ReceiverApp {
 	      String receiveMessage;               
 	      while(true)
 	      {
+	        //receiveMessage = receiveRead.readLine();
 	        if((receiveMessage = receiveRead.readLine()) != null)  
 	        {
 	           System.out.println("Data received from App: " + receiveMessage);         
 	        }         
+	      
 	      }               
 	}
 }
