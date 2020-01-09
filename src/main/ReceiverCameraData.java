@@ -99,9 +99,7 @@ public class ReceiverCameraData implements Runnable {
 		else //receive from app
 		{
 		
-			String test = "{x=828, y=-40, z=-1389,}";
-			String s = test.substring(test.indexOf("=")+1, test.indexOf(","));
-			System.out.println("xUpdate = " + s);
+			
 			
 			ReceiverApp rApp = new ReceiverApp();
 			try {

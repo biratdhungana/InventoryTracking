@@ -40,6 +40,10 @@ public class ReceiverApp {
 		
 		System.out.println("Server  ready to receive data from App");
 		
+		String test = "{x=828, y=-40, z=-1389,}";
+		String s = test.substring(test.indexOf("=")+1, test.indexOf(","));
+		System.out.println("xUpdate = " + s);
+		
         while (true){
 		      ServerSocket sersock = new ServerSocket(8008);
 		      Socket sock = sersock.accept();                          
