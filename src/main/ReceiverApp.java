@@ -29,16 +29,16 @@ public class ReceiverApp {
 		      BufferedReader receiveRead = new BufferedReader(new InputStreamReader(istream));
 		 
 		      String locationUpdate;               
-		      if((locationUpdate = receiveRead.readLine()) != null)  
+		      if((locationUpdate = receiveRead.readLine()) != "null")  
 		      {
 		         System.out.println("Tag Location Update: " + locationUpdate);
-		         xUpdate = locationUpdate.substring(locationUpdate.indexOf("=")+1, locationUpdate.indexOf(","));
-		         yUpdate = locationUpdate.substring(locationUpdate.indexOf("y")+2, locationUpdate.indexOf(",")+1);
+		         xUpdate = locationUpdate.substring(locationUpdate.indexOf("x")+2, locationUpdate.indexOf(","));
+			 System.out.println("xUpdate = " + xUpdate);
+		         yUpdate = locationUpdate.substring(locationUpdate.indexOf("y")+2, locationUpdate.indexOf(",", locationUpdate.indexOf(",")+1));
+			 System.out.println("yUpdate = " + yUpdate);
 		         zUpdate = locationUpdate.substring(locationUpdate.indexOf("z")+2, locationUpdate.lastIndexOf(","));
+			 System.out.println("zUpdate = " + zUpdate);
 		         
-				 System.out.println("xUpdate = " + xUpdate);
-				 System.out.println("yUpdate = " + yUpdate);
-				 System.out.println("zUpdate = " + zUpdate);
 				 
 				 xNew = Double.parseDouble(xUpdate);
 				 yNew = Double.parseDouble(yUpdate);

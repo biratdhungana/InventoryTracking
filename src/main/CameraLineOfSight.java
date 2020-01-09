@@ -7,8 +7,8 @@ import java.util.*;
 
 public class CameraLineOfSight {
 
-	public static double[] tagLocation = new double[]{50,10,90};
-	public static double[] cameraLocation = new double[]{30,5,20};
+	//public static double[] tagLocation = new double[]{50,10,90};
+	public static double[] cameraLocation = new double[]{1600,0,200};
 	
 	public static double[] doorEdge1 = new double[]{10,20,0};
 	public static double[] doorEdge2 = new double[]{15,40,7};
@@ -23,9 +23,9 @@ public class CameraLineOfSight {
 		return cameraLocation;
 	}
 	
-	public double[] getTagLocation() {
+	/*public double[] getTagLocation() {
 		return tagLocation;
-	}
+	}*/
 	
 	public static double[] equationOfLine(double[] cameraLocation, double[] tagLocation) {
 		
@@ -57,7 +57,7 @@ public class CameraLineOfSight {
 		
 
 
-		double[] referenceLine = new double[]{0, 0, 0};
+		double[] referenceLine = new double[]{2300, 440, 500};
 		
 		//Angle of Elevation
 		double distanceCameratoObject1 = Math.sqrt(Math.pow(cameraLocation[0]-referenceLine[0],2) + Math.pow(cameraLocation[1]-referenceLine[1],2) + Math.pow(cameraLocation[2]-referenceLine[2],2));
@@ -86,8 +86,8 @@ public class CameraLineOfSight {
 	
 	public static void main(String[] args) {
 		
-		double[] lineofsight = equationOfLine(cameraLocation, tagLocation);
-		System.out.println("z = " + lineofsight[0] + "x" + lineofsight[1]+ "y" + lineofsight[2]);
+		//double[] lineofsight = equationOfLine(cameraLocation, tagLocation);
+		//System.out.println("z = " + lineofsight[0] + "x" + lineofsight[1]+ "y" + lineofsight[2]);
 		
 		double[] entranceBoundary = equationOfLine(doorEdge1, doorEdge2);
 		System.out.println("z = " + entranceBoundary[0] + "x" + entranceBoundary[1]+ "y" + entranceBoundary[2]);
