@@ -27,6 +27,7 @@ public class ReceiverCameraData implements Runnable {
 		this.receiveFromApp.start();
 		this.sendCameraData.start();
 		this.receiveCameraData.start();
+		this.receiveTagLocation.start();
 		this.sendAppData.start();
 		
 	}
