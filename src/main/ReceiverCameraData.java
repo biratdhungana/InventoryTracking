@@ -121,8 +121,8 @@ public class ReceiverCameraData implements Runnable {
 //		System.out.println("z = " + entranceBoundary[0] + "x+" + entranceBoundary[1]+ "y+" + entranceBoundary[2]);
 		
 		double[] anglesPrint = cameraPrint.angles();
-		System.out.println("Vertical Angle = " + anglesPrint[0]);
-		System.out.println("Horizontal Angle = " + anglesPrint[1]);
+		//System.out.println("Vertical Angle = " + anglesPrint[0]);
+		//System.out.println("Horizontal Angle = " + anglesPrint[1]);
 		System.out.println("Hi");
 		
 	      
