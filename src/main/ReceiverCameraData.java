@@ -9,13 +9,16 @@ public class ReceiverCameraData implements Runnable {
 	Thread receiveCameraData;
 	Thread sendAppData;
 	Thread receiveFromApp;
+	Thread receiveTagLocation;
 
 	public ReceiverCameraData() {
 
 		this.sendCameraData = new Thread(this,"sendCameraData");
 		this.receiveCameraData = new Thread(this, "receiveCameraData"); 
 		this.sendAppData = new Thread(this,"sendAppData");
+		this.receiveTagLocation = new Thread(this, "receiveTagLocation");
 		this.receiveFromApp = new Thread(this, "receiveFromApp");
+		
 	}
 	
 	public void start()
@@ -80,12 +83,22 @@ public class ReceiverCameraData implements Runnable {
 		{
 			
 		}
+		else if(Thread.currentThread().getName().equals("receiveTagLocation"))  //receive tag location update polling
+		{
+			ReceiverApp locationUpdate = new ReceiverApp();
+			try {
+				locationUpdate.receiveLocationData();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		else //receive from app
 		{
 		
 			ReceiverApp rApp = new ReceiverApp();
 			try {
-				rApp.receive();
+				rApp.receiveApp();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -97,6 +110,9 @@ public class ReceiverCameraData implements Runnable {
 	public static void main( String args[] )
 	{
 		CameraLineOfSight cameraPrint = new CameraLineOfSight();
+		ReceiverApp rApp = new ReceiverApp();
+		
+		System.out.println("xUpdate = " + rApp.xUpdate);
 	      
 	    double[] lineofsight = cameraPrint.equationOfLine(cameraPrint.cameraLocation, cameraPrint.tagLocation);
 	//	System.out.println("z = " + lineofsight[0] + "x+" + lineofsight[1]+ "y+" + lineofsight[2]);
