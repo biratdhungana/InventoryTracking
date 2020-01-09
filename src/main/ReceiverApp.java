@@ -28,7 +28,7 @@ public class ReceiverApp {
 		      if((locationUpdate = receiveRead.readLine()) != null)  
 		      {
 		         System.out.println("Tag Location Update: " + locationUpdate);
-		         String xUpdate = locationUpdate.substring(locationUpdate.indexOf("=")+1, locationUpdate.indexOf(","));
+		         xUpdate = locationUpdate.substring(locationUpdate.indexOf("=")+1, locationUpdate.indexOf(","));
 			     sersock.close();
 		      }         
 	      
