@@ -9,6 +9,10 @@ public class ReceiverApp {
 	public String xUpdate;
 	public String yUpdate;
 	public String zUpdate;
+	
+	public double xNew;
+	public double yNew;
+	public double zNew;
 
 	public ReceiverApp() {
 
@@ -17,18 +21,6 @@ public class ReceiverApp {
 	public void receiveLocationData() throws Exception {
 		
 		  System.out.println("Server  ready to receive tag location data");
-		  
-		  String test = "{x=828, y=-40, z=-1389,}";
-		  String s = test.substring(test.indexOf("x")+2, test.indexOf(","));
-		  System.out.println("xUpdate = " + s);
-		  
-		  String y = test.substring(test.indexOf("y")+2, test.indexOf(","));
-		  System.out.println("yUpdate = " + y);
-		  
-		  String z = test.substring(test.indexOf("z")+2, test.indexOf(","));
-		  System.out.println("zUpdate = " + z);
-		  
-		  
 		  
           while (true){
 		      ServerSocket sersock = new ServerSocket(6001);
@@ -41,6 +33,30 @@ public class ReceiverApp {
 		      {
 		         System.out.println("Tag Location Update: " + locationUpdate);
 		         xUpdate = locationUpdate.substring(locationUpdate.indexOf("=")+1, locationUpdate.indexOf(","));
+		         yUpdate = locationUpdate.substring(locationUpdate.indexOf("y")+2, locationUpdate.indexOf(",")+1);
+		         zUpdate = locationUpdate.substring(locationUpdate.indexOf("z")+2, locationUpdate.lastIndexOf(","));
+		         
+				 System.out.println("xUpdate = " + xUpdate);
+				 System.out.println("yUpdate = " + yUpdate);
+				 System.out.println("zUpdate = " + zUpdate);
+				 
+				 xNew = Double.parseDouble(xUpdate);
+				 yNew = Double.parseDouble(yUpdate);
+				 zNew = Double.parseDouble(zUpdate);
+				 
+				 double[] updatedAngles = new double[]{xNew, yNew, zNew};
+				 
+				 CameraLineOfSight camera = new CameraLineOfSight();
+		       	 double[] angles = camera.angles(updatedAngles);
+		       	 
+				 SendToCamera sendCamera = new SendToCamera();
+		       	 try {
+					 sendCamera.sendAngles(angles[0], angles[1]);
+				 } catch (Exception e) {
+					 // TODO Auto-generated catch block
+					 e.printStackTrace();
+				 }
+				 
 			     sersock.close();
 		      }         
 	      

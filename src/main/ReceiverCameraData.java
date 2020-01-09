@@ -37,6 +37,7 @@ public class ReceiverCameraData implements Runnable {
 		
 		if(Thread.currentThread().getName().equals("sendCameraData"))
 		{
+		/*
 			
 		for(;;){
 
@@ -73,7 +74,7 @@ public class ReceiverCameraData implements Runnable {
 		 
 		} 
 		 
-       	 	
+       	 */
        	 	
 		}
 		else if(Thread.currentThread().getName().equals("receiveCameraData"))
@@ -94,6 +95,7 @@ public class ReceiverCameraData implements Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		
 			
 		}
 		else //receive from app
@@ -123,9 +125,9 @@ public class ReceiverCameraData implements Runnable {
 		double[] entranceBoundary = cameraPrint.equationOfLine(cameraPrint.doorEdge1, cameraPrint.doorEdge2);
 //		System.out.println("z = " + entranceBoundary[0] + "x+" + entranceBoundary[1]+ "y+" + entranceBoundary[2]);
 		
-		double[] anglesPrint = cameraPrint.angles();
-		System.out.println("Vertical Angle = " + anglesPrint[0]);
-		System.out.println("Horizontal Angle = " + anglesPrint[1]);
+		//double[] anglesPrint = cameraPrint.angles();
+		//System.out.println("Vertical Angle = " + anglesPrint[0]);
+		//System.out.println("Horizontal Angle = " + anglesPrint[1]);
 		
 	      
 	    DatagramSocket socket = null ;  

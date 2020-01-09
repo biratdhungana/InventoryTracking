@@ -50,10 +50,14 @@ public class CameraLineOfSight {
 		//Based on this angle, the motors will move the camera to this angle from the reference point/line
 	}
 	
-	public static double[] angles() {
+	public static double[] angles(double[] tagLocation) {
 		
 		//Calculated the angles for the movement of the camera based on the following link:
 		//http://www.nabla.hr/PC-LinePlaneIn3DSp2.htm
+		
+
+
+		double[] referenceLine = new double[]{0, 0, 0};
 		
 		//Angle of Elevation
 		double distanceCameratoObject1 = Math.sqrt(Math.pow(cameraLocation[0]-referenceLine[0],2) + Math.pow(cameraLocation[1]-referenceLine[1],2) + Math.pow(cameraLocation[2]-referenceLine[2],2));
