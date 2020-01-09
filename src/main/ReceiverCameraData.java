@@ -86,9 +86,7 @@ public class ReceiverCameraData implements Runnable {
 		}
 		else if(Thread.currentThread().getName().equals("receiveTagLocation"))  //receive tag location update polling
 		{
-			String test = "{x=828, y=-40, z=-1389,}";
-			String s = test.substring(test.indexOf("=")+1, test.indexOf(","));
-			System.out.println("xUpdate = " + s);
+			
 			ReceiverApp locationUpdate = new ReceiverApp();
 			try {
 				locationUpdate.receiveLocationData();
@@ -101,6 +99,10 @@ public class ReceiverCameraData implements Runnable {
 		else //receive from app
 		{
 		
+			String test = "{x=828, y=-40, z=-1389,}";
+			String s = test.substring(test.indexOf("=")+1, test.indexOf(","));
+			System.out.println("xUpdate = " + s);
+			
 			ReceiverApp rApp = new ReceiverApp();
 			try {
 				rApp.receiveApp();
