@@ -24,6 +24,7 @@ public class ReceiverCameraData implements Runnable {
 	public void start()
 	{
 		System.out.println("Server Running");
+		System.out.println("Hi");
 		this.receiveFromApp.start();
 		this.sendCameraData.start();
 		this.receiveCameraData.start();
@@ -98,8 +99,6 @@ public class ReceiverCameraData implements Runnable {
 		}
 		else //receive from app
 		{
-		
-			
 			
 			ReceiverApp rApp = new ReceiverApp();
 			try {
@@ -128,7 +127,6 @@ public class ReceiverCameraData implements Runnable {
 		double[] anglesPrint = cameraPrint.angles();
 		System.out.println("Vertical Angle = " + anglesPrint[0]);
 		System.out.println("Horizontal Angle = " + anglesPrint[1]);
-		System.out.println("Hi");
 		
 	      
 	    DatagramSocket socket = null ;  
