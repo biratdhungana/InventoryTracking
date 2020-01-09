@@ -24,7 +24,6 @@ public class ReceiverCameraData implements Runnable {
 	public void start()
 	{
 		System.out.println("Server Running");
-		System.out.println("Hi");
 		this.receiveFromApp.start();
 		this.sendCameraData.start();
 		this.receiveCameraData.start();

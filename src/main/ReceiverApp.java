@@ -18,6 +18,18 @@ public class ReceiverApp {
 		
 		  System.out.println("Server  ready to receive tag location data");
 		  
+		  String test = "{x=828, y=-40, z=-1389,}";
+		  String s = test.substring(test.indexOf("x")+2, test.indexOf(","));
+		  System.out.println("xUpdate = " + s);
+		  
+		  String y = test.substring(test.indexOf("y")+2, test.indexOf(","));
+		  System.out.println("yUpdate = " + y);
+		  
+		  String z = test.substring(test.indexOf("z")+2, test.indexOf(","));
+		  System.out.println("zUpdate = " + z);
+		  
+		  
+		  
           while (true){
 		      ServerSocket sersock = new ServerSocket(6001);
 		      Socket sock = sersock.accept();                          
@@ -39,10 +51,6 @@ public class ReceiverApp {
 	public void receiveApp() throws Exception {
 		
 		System.out.println("Server  ready to receive data from App");
-		
-		String test = "{x=828, y=-40, z=-1389,}";
-		String s = test.substring(test.indexOf("=")+1, test.indexOf(","));
-		System.out.println("xUpdate = " + s);
 		
         while (true){
 		      ServerSocket sersock = new ServerSocket(8008);
