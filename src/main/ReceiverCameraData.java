@@ -85,6 +85,9 @@ public class ReceiverCameraData implements Runnable {
 		}
 		else if(Thread.currentThread().getName().equals("receiveTagLocation"))  //receive tag location update polling
 		{
+			String test = "{x=828, y=-40, z=-1389,}";
+			String s = test.substring(test.indexOf("=")+1, test.indexOf(","));
+			System.out.println("xUpdate = " + s);
 			ReceiverApp locationUpdate = new ReceiverApp();
 			try {
 				locationUpdate.receiveLocationData();
@@ -92,6 +95,7 @@ public class ReceiverCameraData implements Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
 		}
 		else //receive from app
 		{
@@ -112,7 +116,7 @@ public class ReceiverCameraData implements Runnable {
 		CameraLineOfSight cameraPrint = new CameraLineOfSight();
 		ReceiverApp rApp = new ReceiverApp();
 		
-		System.out.println("xUpdate = " + rApp.xUpdate);
+		
 	      
 	    double[] lineofsight = cameraPrint.equationOfLine(cameraPrint.cameraLocation, cameraPrint.tagLocation);
 	//	System.out.println("z = " + lineofsight[0] + "x+" + lineofsight[1]+ "y+" + lineofsight[2]);
@@ -121,8 +125,8 @@ public class ReceiverCameraData implements Runnable {
 //		System.out.println("z = " + entranceBoundary[0] + "x+" + entranceBoundary[1]+ "y+" + entranceBoundary[2]);
 		
 		double[] anglesPrint = cameraPrint.angles();
-		//System.out.println("Vertical Angle = " + anglesPrint[0]);
-		//System.out.println("Horizontal Angle = " + anglesPrint[1]);
+		System.out.println("Vertical Angle = " + anglesPrint[0]);
+		System.out.println("Horizontal Angle = " + anglesPrint[1]);
 		System.out.println("Hi");
 		
 	      
