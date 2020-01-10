@@ -18,7 +18,7 @@ public class ReceiverApp {
 
 	}
 	
-	public void receiveLocationData() throws Exception {
+	public synchronized void receiveLocationData() throws Exception {
 		
 		  System.out.println("Server  ready to receive tag location data");
 		  
@@ -28,8 +28,9 @@ public class ReceiverApp {
 		      InputStream istream = sock.getInputStream();
 		      BufferedReader receiveRead = new BufferedReader(new InputStreamReader(istream));
 		 
-		      String locationUpdate;               
-		      if((locationUpdate = receiveRead.readLine()) != "null")  
+		      String locationUpdate = null;               
+		      String n = null;
+		      if((locationUpdate = receiveRead.readLine()) != null && !locationUpdate.equals(n) && locationUpdate.length()!=0)  
 		      {
 		         System.out.println("Tag Location Update: " + locationUpdate);
 		         xUpdate = locationUpdate.substring(locationUpdate.indexOf("x")+2, locationUpdate.indexOf(","));
@@ -57,9 +58,8 @@ public class ReceiverApp {
 					 e.printStackTrace();
 				 }
 				 
-			     sersock.close();
 		      }         
-	      
+	     sersock.close(); 
 		      
 	     }               
 	}
