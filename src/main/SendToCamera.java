@@ -99,10 +99,10 @@ public class SendToCamera {
 	      //while(true)
 	     // {
 	        String angleData = new String(Double.toString(upDownAngle) + " " + Double.toString(sidewaysAngle));
-	        System.out.println("Angles Sent to Cameras: " + angleData);
 	        sendMessage = angleData;
 	        pwrite.println(sendMessage);             
 	        pwrite.flush();
+	        System.out.println("Angles Sent to Cameras: " + angleData);
 	      //}               
 	    }                    
 	

@@ -26,39 +26,41 @@ public class ReceiverApp {
 		      ServerSocket sersock = new ServerSocket(6001);
 		      Socket sock = sersock.accept();                          
 		      InputStream istream = sock.getInputStream();
-		      BufferedReader receiveRead = new BufferedReader(new InputStreamReader(istream));
-		 
-		      String locationUpdate = null;               
-		      String n = null;
-		      if((locationUpdate = receiveRead.readLine()) != null && !locationUpdate.equals(n) && locationUpdate.length()!=0)  
-		      {
-		         System.out.println("Tag Location Update: " + locationUpdate);
-		         xUpdate = locationUpdate.substring(locationUpdate.indexOf("x")+2, locationUpdate.indexOf(","));
-			 System.out.println("xUpdate = " + xUpdate);
-		         yUpdate = locationUpdate.substring(locationUpdate.indexOf("y")+2, locationUpdate.indexOf(",", locationUpdate.indexOf(",")+1));
-			 System.out.println("yUpdate = " + yUpdate);
-		         zUpdate = locationUpdate.substring(locationUpdate.indexOf("z")+2, locationUpdate.lastIndexOf(","));
-			 System.out.println("zUpdate = " + zUpdate);
-		         
-				 
-				 xNew = Double.parseDouble(xUpdate);
-				 yNew = Double.parseDouble(yUpdate);
-				 zNew = Double.parseDouble(zUpdate);
-				 
-				 double[] updatedAngles = new double[]{xNew, yNew, zNew};
-				 
-				 CameraLineOfSight camera = new CameraLineOfSight();
-		       	 double[] angles = camera.angles(updatedAngles);
-		       	 
-				 SendToCamera sendCamera = new SendToCamera();
-		       	 try {
-					 sendCamera.sendAngles(angles[0], angles[1]);
-				 } catch (Exception e) {
-					 // TODO Auto-generated catch block
-					 e.printStackTrace();
-				 }
-				 
-		      }         
+		      synchronized(istream) {
+			      BufferedReader receiveRead = new BufferedReader(new InputStreamReader(istream));
+			 
+			      String locationUpdate = null;               
+			      //String n = null;
+			      if((locationUpdate = receiveRead.readLine()) != null) // && !locationUpdate.equals(n) && locationUpdate.length()!=0)  
+			      {
+			         System.out.println("Tag Location Update: " + locationUpdate);
+			         xUpdate = locationUpdate.substring(locationUpdate.indexOf("x")+2, locationUpdate.indexOf(","));
+			         System.out.println("xUpdate = " + xUpdate);
+			         yUpdate = locationUpdate.substring(locationUpdate.indexOf("y")+2, locationUpdate.indexOf(",", locationUpdate.indexOf(",")+1));
+			         System.out.println("yUpdate = " + yUpdate);
+			         zUpdate = locationUpdate.substring(locationUpdate.indexOf("z")+2, locationUpdate.lastIndexOf(","));
+			         System.out.println("zUpdate = " + zUpdate);
+			         
+					 
+					 xNew = Double.parseDouble(xUpdate);
+					 yNew = Double.parseDouble(yUpdate);
+					 zNew = Double.parseDouble(zUpdate);
+					 
+					 double[] updatedAngles = new double[]{xNew, yNew, zNew};
+					 
+					 CameraLineOfSight camera = new CameraLineOfSight();
+			       	 double[] angles = camera.angles(updatedAngles);
+			       	 
+					 SendToCamera sendCamera = new SendToCamera();
+			       	 try {
+						 sendCamera.sendAngles(angles[0], angles[1]);
+					 } catch (Exception e) {
+						 // TODO Auto-generated catch block
+						 e.printStackTrace();
+					 }
+					 
+			      } 
+		      }
 	     sersock.close(); 
 		      
 	     }               
