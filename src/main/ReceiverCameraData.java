@@ -13,14 +13,16 @@ public class ReceiverCameraData implements Runnable {
 
 	public ReceiverCameraData() {
 
+		
 		this.sendCameraData = new Thread(this,"sendCameraData");
 		this.receiveCameraData = new Thread(this, "receiveCameraData"); 
 		this.sendAppData = new Thread(this,"sendAppData");
 		this.receiveTagLocation = new Thread(this, "receiveTagLocation");
 		this.receiveFromApp = new Thread(this, "receiveFromApp");
 		
+		
 	}
-	
+        	
 	public void start()
 	{
 		System.out.println("Server Running");
@@ -32,13 +34,15 @@ public class ReceiverCameraData implements Runnable {
 		
 	}
 	
+	
+	
 	public void run() {
 		// TODO Auto-generated method stub
 		
 		if(Thread.currentThread().getName().equals("sendCameraData"))
 		{
-		/*
-			
+		
+	/*		
 		for(;;){
 
 			CameraLineOfSight camera = new CameraLineOfSight();
@@ -74,7 +78,7 @@ public class ReceiverCameraData implements Runnable {
 		 
 		} 
 		 
-       	 */
+                */	
        	 	
 		}
 		else if(Thread.currentThread().getName().equals("receiveCameraData"))
@@ -111,18 +115,17 @@ public class ReceiverCameraData implements Runnable {
 		
 		}
 	}
+        
 
 	public static void main( String args[] )
 	{
 		CameraLineOfSight cameraPrint = new CameraLineOfSight();
 		ReceiverApp rApp = new ReceiverApp();
 		
-		
 	      
 	    //double[] lineofsight = cameraPrint.equationOfLine(cameraPrint.cameraLocation, cameraPrint.tagLocation);
 	//	System.out.println("z = " + lineofsight[0] + "x+" + lineofsight[1]+ "y+" + lineofsight[2]);
 			
-		double[] entranceBoundary = cameraPrint.equationOfLine(cameraPrint.doorEdge1, cameraPrint.doorEdge2);
 //		System.out.println("z = " + entranceBoundary[0] + "x+" + entranceBoundary[1]+ "y+" + entranceBoundary[2]);
 		
 		//double[] anglesPrint = cameraPrint.angles();
@@ -130,7 +133,6 @@ public class ReceiverCameraData implements Runnable {
 		//System.out.println("Horizontal Angle = " + anglesPrint[1]);
 		
 	      
-	    DatagramSocket socket = null ;  
 	      
 	    try
 	    {
@@ -158,7 +160,6 @@ public class ReceiverCameraData implements Runnable {
 			  
 	        	 //SendToCamera sendCamera = new SendToCamera();
 	        	 //sendCamera.sendAngles(angles[0], angles[1]);
-	        	 CameraLineOfSight camera = new CameraLineOfSight();
 	        	 ReceiverCameraData program = new ReceiverCameraData();
 	        	 program.start();
 			 
@@ -176,12 +177,12 @@ public class ReceiverCameraData implements Runnable {
 	             */
 	             
 	             
-	         //}
+	        //}
 	    }
 	    catch( Exception e )
 		{
 		    System.out.println( e ) ;
-		}
+	        }
 	      
 	  	
 	}
