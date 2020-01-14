@@ -85,6 +85,7 @@ public class SendToCamera {
 	*/
 	public void sendAngles(double upDownAngle, double sidewaysAngle) throws Exception
 	  {
+              System.out.println("Creating socket");
 	      Socket sock = new Socket("192.168.1.104", 6000);
 	      System.out.println("Sending angles to Camera");
 	      //Socket sock = sersock.accept( );                          
@@ -103,8 +104,9 @@ public class SendToCamera {
 	        pwrite.println(sendMessage);             
 	        pwrite.flush();
 	        System.out.println("Angles Sent to Cameras: " + angleData);
-		sock.close();
 	      //}               
+	        sock.close();
+		System.out.println("Socket closed");
 	    }                    
 	
 
