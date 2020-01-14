@@ -10,15 +10,17 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <string.h>
-#define PORT 8008
+#define PORT 6000
 
 using namespace std;
 
+//HORIZONTAL
 #define OUTPUT_PIN_1 14
 #define OUTPUT_PIN_2 15
 #define OUTPUT_PIN_3 18
 #define OUTPUT_PIN_4 23
 
+//VERTICAL
 #define OUTPUT_PIN_5 4
 #define OUTPUT_PIN_6 17
 #define OUTPUT_PIN_7 27
@@ -139,12 +141,9 @@ void turnMotorsToAngles(StepperMotor horiMotor, StepperMotor vertiMotor, double 
 string CommsRecieve(){
 	int server_fd, new_socket, valread;
 	struct sockaddr_in address;
-	int opt =1;
+	int opt = 1;
 	int addrlen = sizeof(address);
 	char buffer[1024] = {0};
-	char *hello = "Hello form server";
-
-	cout << "entered comms" << endl;
 
 	if((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0){
 		perror("socket failed");
@@ -175,14 +174,13 @@ string CommsRecieve(){
 		perror("accept");
 		exit(EXIT_FAILURE);
 	}
-	cout << "comms connected" << endl;
 
 	valread = read(new_socket, buffer, 1024);
 	cout << buffer << endl;
-	send(new_socket, hello, strlen(hello), 0);
-	cout << "sent the hello" << endl;
 
 	string dataOut = buffer;
+	cout << "hi dude" << endl;
+	shutdown(server_fd, 2);
 	return dataOut;
 }
 
@@ -202,8 +200,6 @@ int main(){
 	
 		dataOut = CommsRecieve();
 
-		cout << dataOut << endl;
-
 		std::string delimeter = " ";
 		size_t pos = dataOut.find(delimeter);
 
@@ -211,12 +207,9 @@ int main(){
 		dataOut.erase(0, pos+delimeter.length());
 		inputAngles[1] = stod(dataOut.substr(0, pos));	
 		
-		
 		cout << "the angles are " << inputAngles[0] << " and " << inputAngles[1] << endl;
 		turnMotorsToAngles(horiMotor, vertiMotor, inputAngles[0], inputAngles[1]);	
-
 	}
-
 }
 
 
