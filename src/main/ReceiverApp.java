@@ -30,10 +30,10 @@ public class ReceiverApp {
 			 
 			      String locationUpdate; 
 
-				if(receiveRead.readLine() != null)
-				{
-			         System.out.println("input " + receiveRead.readLine()); 
-                                 System.out.println("Waiting for Tag Location Data");
+				//if(receiveRead.readLine() != null)
+				//{
+			         //System.out.println("input " + receiveRead.readLine()); 
+                                 //System.out.println("Waiting for Tag Location Data");
 
 			      if((locationUpdate = receiveRead.readLine()) != null)   
 			      {
@@ -69,7 +69,7 @@ public class ReceiverApp {
 	                      sersock.close(); 
 	                      Thread.sleep(1000);
 				}
-	     }               
+	     //}               
 	}
 	
 	public void receiveApp() throws Exception {
