@@ -56,8 +56,10 @@ public class CameraLineOfSight {
 		//http://www.nabla.hr/PC-LinePlaneIn3DSp2.htm
 		
 
+                ReceiverApp rApp = new ReceiverApp();
 
-		double[] referenceLine = new double[]{2300, 440, 500};
+		double[] referenceLine = rApp.referenceLine; 
+		System.out.println("Initial Camera Line of Sight = " + referenceLine[0] + "," + referenceLine[1] + "," + referenceLine[2]);
 		
 		//Angle of Elevation
 		double distanceCameratoObject1 = Math.sqrt(Math.pow(cameraLocation[0]-referenceLine[0],2) + Math.pow(cameraLocation[1]-referenceLine[1],2) + Math.pow(cameraLocation[2]-referenceLine[2],2));

@@ -92,6 +92,7 @@ public class ReceiverCameraData implements Runnable {
 		else if(Thread.currentThread().getName().equals("receiveTagLocation"))  //receive tag location update polling
 		{
 			
+			
 			ReceiverApp locationUpdate = new ReceiverApp();
 			try {
 				locationUpdate.receiveLocationData();
@@ -99,7 +100,7 @@ public class ReceiverCameraData implements Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
+	                	
 			
 		}
 		else //receive from app
@@ -107,7 +108,8 @@ public class ReceiverCameraData implements Runnable {
 			
 			ReceiverApp rApp = new ReceiverApp();
 			try {
-				rApp.receiveApp();
+				rApp.receiveInitialApp();
+				rApp.receiveTagApp();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

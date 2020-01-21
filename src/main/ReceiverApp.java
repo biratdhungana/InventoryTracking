@@ -13,6 +13,8 @@ public class ReceiverApp {
 	public double xNew;
 	public double yNew;
 	public double zNew;
+	
+	public double[] referenceLine;
 
 	public ReceiverApp() {
 
@@ -23,15 +25,12 @@ public class ReceiverApp {
 		  System.out.println("Server  ready to receive tag location data");
 		  
           	  while (true){
-			      System.out.println("while again");
 		              ServerSocket sersock = new ServerSocket(6001);
 			      Socket sock = sersock.accept();
-			      System.out.println("Socket = " + sersock);
-			      System.out.println("Sock = " + sock);
 		              InputStream istream = sock.getInputStream();
 			      InputStreamReader isr = new InputStreamReader(istream);
 			      BufferedReader receiveRead = new BufferedReader(isr);
-				sersock.close(); 
+			      sersock.close(); 
 			      String locationUpdate; 
 			      Thread.sleep(1000);
 
@@ -41,12 +40,12 @@ public class ReceiverApp {
 				 	System.out.println(locationUpdate);
 
 					if(locationUpdate.contains("x")) {
-			         	xUpdate = locationUpdate.substring(locationUpdate.indexOf("x")+2, locationUpdate.indexOf(","));
-			         	System.out.println("xUpdate = " + xUpdate);
-			         	yUpdate = locationUpdate.substring(locationUpdate.indexOf("y")+2, locationUpdate.indexOf(",", locationUpdate.indexOf(",")+1));
-			         	System.out.println("yUpdate = " + yUpdate);
-			         	zUpdate = locationUpdate.substring(locationUpdate.indexOf("z")+2, locationUpdate.lastIndexOf(","));
-			         	System.out.println("zUpdate = " + zUpdate);
+			         		xUpdate = locationUpdate.substring(locationUpdate.indexOf("x")+2, locationUpdate.indexOf(","));
+			         		System.out.println("xUpdate = " + xUpdate);
+			         		yUpdate = locationUpdate.substring(locationUpdate.indexOf("y")+2, locationUpdate.indexOf(",", locationUpdate.indexOf(",")+1));
+			         		System.out.println("yUpdate = " + yUpdate);
+			         		zUpdate = locationUpdate.substring(locationUpdate.indexOf("z")+2, locationUpdate.lastIndexOf(","));
+			         		System.out.println("zUpdate = " + zUpdate);
 					}
 					else{
 						break;
@@ -77,12 +76,43 @@ public class ReceiverApp {
 			}
 	}
 	
-	public void receiveApp() throws Exception {
+	public void receiveInitialApp() throws Exception {
 		
-		System.out.println("Server  ready to receive data from App");
+		System.out.println("Server  ready to receive initial data from App");
 		
-        while (true){
-		      ServerSocket sersock = new ServerSocket(8008);
+	        ServerSocket sersock = new ServerSocket(8008);
+	        Socket sock = sersock.accept();                          
+	        InputStream istream = sock.getInputStream();
+	        BufferedReader receiveRead = new BufferedReader(new InputStreamReader(istream));
+		 
+	        String receiveMessage;               
+	        if((receiveMessage = receiveRead.readLine()) != null)  
+	        {
+	           System.out.println("Data received from App: " + receiveMessage);         
+		   sersock.close();
+		}         
+                String[] coordinates = receiveMessage.split(":");
+		String sReference = coordinates[1].substring(0, coordinates[1].length()-7);
+		String sReferenceX = sReference.substring(0, sReference.indexOf(","));
+		String sReferenceY = sReference.substring(sReference.indexOf(",")+1, sReference.indexOf(",", sReference.indexOf(",")+1));   
+		String sReferenceZ = sReference.substring(sReference.indexOf(",", sReference.indexOf(",")+1)+1, sReference.length());
+		
+		double xReference = Double.parseDouble(sReferenceX);
+		double yReference = Double.parseDouble(sReferenceY);
+		double zReference = Double.parseDouble(sReferenceZ);
+
+                referenceLine = new double[]{xReference, yReference, zReference};
+
+		System.out.println("Reference Line = " + referenceLine[0] + " " + referenceLine[1] + " " + referenceLine[2]);
+	      
+	}
+
+	public void receiveTagApp() throws Exception {
+		
+		System.out.println("Server  ready to receive Tag data from App");
+		
+        	while (true){
+		      ServerSocket sersock = new ServerSocket(7007);
 		      Socket sock = sersock.accept();                          
 		      InputStream istream = sock.getInputStream();
 		      BufferedReader receiveRead = new BufferedReader(new InputStreamReader(istream));
@@ -93,7 +123,10 @@ public class ReceiverApp {
 		         System.out.println("Data received from App: " + receiveMessage);         
 			     sersock.close();
 		      }         
+		      //this.receiveLocationData();
+
 	      
-	     }               
+	    	 }               
 	}
+	
 }
