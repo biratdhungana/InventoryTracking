@@ -1,26 +1,19 @@
 package com.example.birat.c2e3;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.content.Intent;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
+public class LoginActivity extends AppCompatActivity {
 
-
-public class LoginActivity extends AppCompatActivity{
-
-    Button loginButton, resetButton;
+    Button loginButton, resetButton, setupButton;
     EditText userName, password;
-    int loginLimit = 3; //Limit for number of logins
-    InetAddress serverIP;
-    Sender s1;
-
+    int loginLimit = 3;
+    String finalUserName, finalPassWord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,65 +25,45 @@ public class LoginActivity extends AppCompatActivity{
         userName = (EditText)findViewById(R.id.usernameSpace);
         password = (EditText)findViewById(R.id.passwordSpace);
 
-        try{
-            serverIP = InetAddress.getByName("192.168.1.101");
-        }catch (UnknownHostException e){
-            System.out.println("Could not get IP address correctly.");
-        }
+        setupButton = (Button)findViewById(R.id.SetupButton);
 
+        finalUserName = userName.getText().toString();
+        finalPassWord = password.getText().toString();
 
-        /**
-         * When Login Button is pressed
-         */
         loginButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                //TODO: Temporary step - needs to be sent to server for final version
-
                 if((userName.getText().toString().equals("b"))
-                    && (password.getText().toString().equals("b"))){
-
-                    Toast.makeText(getApplicationContext(),"Success!",Toast.LENGTH_LONG).show();
-
-                    //Take to the next activity
-                    Intent choicePage = new Intent(LoginActivity.this,ChoiceActivity.class);
-
-                    //s1 = new Sender(serverIP, 8008,"We connected!");
-
-                    Thread testSnder = new Thread(new Sender(serverIP,8008,"We Connected"));
-                    testSnder.start();
-
-
-                    //Start new Page
-                    startActivity(choicePage);
-
-                }
-                else{ //Wrong Credentials
+                        && (password.getText().toString().equals("b"))){
+                    Intent tagsPage = new Intent(LoginActivity.this,Tags.class);
+                    startActivity(tagsPage);
+                }// end if
+                else{
                     loginLimit--;
                     Toast.makeText(getApplicationContext(),"Wrong Credentials!",Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getApplicationContext(),"Attempts Left: " + loginLimit,Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"Attempts Left: " +loginLimit,Toast.LENGTH_LONG).show();
 
                     if (loginLimit==0){
                         loginButton.setEnabled(false);
                     }
-                }
 
-            }
-        });
+                }//end else
 
-        resetButton.setOnClickListener(new View.OnClickListener() {
+            }// end onClick
+
+        });//end loginButton setOnClick
+
+        setupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (loginLimit>0) {
-                    Intent relaodLogin = new Intent(LoginActivity.this, LoginActivity.class);
-                    startActivity(relaodLogin);
-                }else{
-                    //TODO: Dissscuss the solution in this case
-                    Toast.makeText(getApplicationContext(),"Please Figure out a Solution",Toast.LENGTH_LONG).show();
-                }
+                //TODO: Setup the activity pages
+
+                //Route to the first input page
+                Intent lineOfSightsPage = new Intent(LoginActivity.this, LineOfSight.class);
+                startActivity(lineOfSightsPage);
             }
         });
 
     }
-
-} // end main class
+}

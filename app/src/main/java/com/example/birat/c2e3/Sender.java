@@ -1,8 +1,6 @@
 package com.example.birat.c2e3;
 
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
@@ -71,4 +69,4 @@ public class Sender implements Runnable{
 
     }//end run
 
-}//end the nested class Sender
+}//end the class Sender

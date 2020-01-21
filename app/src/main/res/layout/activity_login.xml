@@ -51,6 +51,13 @@
         android:layout_below="@id/passwordSpace"
         android:layout_toRightOf="@id/loginButton"/>
 
+    <Button
+        android:id="@+id/SetupButton"
+        android:text="Pro Initial Setup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"/>
 
 
 </RelativeLayout>
