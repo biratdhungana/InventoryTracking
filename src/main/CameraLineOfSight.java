@@ -13,7 +13,7 @@ public class CameraLineOfSight {
 	public static double[] doorEdge1 = new double[]{10,20,0};
 	public static double[] doorEdge2 = new double[]{15,40,7};
 
-	public static double[] referenceLine = new double[]{0, 0, 0};
+	//public static double[] referenceLine = new double[]{0, 0, 0};
 	
 	public CameraLineOfSight() {
 
@@ -58,7 +58,8 @@ public class CameraLineOfSight {
 
                 ReceiverApp rApp = new ReceiverApp();
 
-		double[] referenceLine = rApp.referenceLine; 
+		//double[] referenceLine = rApp.referenceLine; 
+		double[] referenceLine = new double[] {40, 50, 60};
 		System.out.println("Initial Camera Line of Sight = " + referenceLine[0] + "," + referenceLine[1] + "," + referenceLine[2]);
 		
 		//Angle of Elevation

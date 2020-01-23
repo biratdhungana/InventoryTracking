@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.*;
+import java.io.*;
 import java.nio.ByteBuffer;
 
 public class SendToCamera {
@@ -84,7 +85,7 @@ public class SendToCamera {
 	}
 	*/
 	public void sendAngles(double upDownAngle, double sidewaysAngle) throws Exception
-	  {
+	 {
               System.out.println("Creating socket");
 	      Socket sock = new Socket("192.168.1.104", 6000);
 	      System.out.println("Sending angles to Camera");
@@ -104,11 +105,31 @@ public class SendToCamera {
 	        pwrite.println(sendMessage);             
 	        pwrite.flush();
 	        System.out.println("Angles Sent to Cameras: " + angleData);
-	      //}               
-	        sock.close();
-		System.out.println("Socket closed");
-	    }                    
-	
 
-	
+
+		System.out.println("Server ready to receive Acknowledgement of Camera Movement");
+
+		BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+		//System.out.println("Received: " + in.readLine());
+
+		//ObjectInputStream din = new ObjectInputStream(sock.getInputStream());
+		System.out.println("input stream created");
+		String receiveMessage;
+		//System.out.println(receiveMessage);
+		if((receiveMessage = in.readLine()) != null){
+		//	byte receiveMessage = din.readByte();
+		//	System.out.println("Test");
+
+			
+		//	if(receiveMessage != null) {
+				System.out.println("Camera Movement Acknowledgement Received: " + receiveMessage);
+				sock.close();
+				System.out.println("Socket closed");
+		//	}
+		}
+		//sock.close();
+		//System.out.println("closed");
+
+    	}                    
+
 }

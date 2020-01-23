@@ -16,6 +16,8 @@ public class ReceiverApp {
 	
 	public double[] referenceLine;
 
+	public boolean firstLoop = true;
+
 	public ReceiverApp() {
 
 	}
@@ -34,7 +36,7 @@ public class ReceiverApp {
 			      String locationUpdate; 
 			      Thread.sleep(1000);
 
-			      while((locationUpdate = receiveRead.readLine()) != null) //!= null && locationUpdate != "null")   
+			      while((locationUpdate = receiveRead.readLine()) != null)    
 			      {
 				 
 				 	System.out.println(locationUpdate);
@@ -63,15 +65,13 @@ public class ReceiverApp {
 					
 			       	 
 					SendToCamera sendCamera = new SendToCamera();
-				 
-			       	 	try {
-						 sendCamera.sendAngles(angles[0], angles[1]);
-					} catch (Exception e) {
-						 // TODO Auto-generated catch block
+
+					try {
+					 	sendCamera.sendAngles(angles[0], angles[1]);
+					 }
+					 catch (Exception e) {
 						 e.printStackTrace();
-					}
-			      		 
-	                     
+					 }
 			      }
 			}
 	}
