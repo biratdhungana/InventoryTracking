@@ -10,19 +10,19 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <string.h>
-#define PORT 8008
+#define PORT 6000
 
 using namespace std;
 
-#define OUTPUT_PIN_1 14
-#define OUTPUT_PIN_2 15
-#define OUTPUT_PIN_3 18
-#define OUTPUT_PIN_4 23
+#define OUTPUT_PIN_1 2
+#define OUTPUT_PIN_2 3
+#define OUTPUT_PIN_3 4
+#define OUTPUT_PIN_4 17
 
-#define OUTPUT_PIN_5 4
-#define OUTPUT_PIN_6 17
-#define OUTPUT_PIN_7 27
-#define OUTPUT_PIN_8 22
+#define OUTPUT_PIN_5 14
+#define OUTPUT_PIN_6 15
+#define OUTPUT_PIN_7 18
+#define OUTPUT_PIN_8 23
 
 class StepperMotor
 {
@@ -133,18 +133,25 @@ void turnMotorsToAngles(StepperMotor horiMotor, StepperMotor vertiMotor, double 
 			vertiMotor.halfStepCCW();
 			vertiMotor.setAngle(vertiMotor.getAngle()-0.088);//motor turns 0.088 degrees per step 	
 		}
+		
+		if((abs(horiMotor.getAngle() - horiAngle)< 0.1) && (abs(vertiMotor.getAngle() - vertiAngle)< 0.1)){
+			break;
+
+		}
+	
 	}
 }
 
-string CommsRecieve(){
+void commsReceive(StepperMotor horiMotor, StepperMotor vertiMotor){
 	int server_fd, new_socket, valread;
 	struct sockaddr_in address;
 	int opt =1;
 	int addrlen = sizeof(address);
 	char buffer[1024] = {0};
-	char *hello = "Hello form server";
-
-	cout << "entered comms" << endl;
+	char *ack = "a\n";
+	//			hori, verti
+	double inputAngles[2] = {0, 0};
+	cout << "entered communications" << endl;
 
 	if((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0){
 		perror("socket failed");
@@ -159,6 +166,7 @@ string CommsRecieve(){
 
 	address.sin_family = AF_INET;
 	address.sin_addr.s_addr = INADDR_ANY;
+	//address.sin_addr.s_addr = inet_addr("192.168.1.101");
 	address.sin_port = htons(PORT);
 	
 	if(bind(server_fd, (struct sockaddr *)&address, sizeof(address))<0){
@@ -170,53 +178,93 @@ string CommsRecieve(){
 		perror("listen");
 		exit(EXIT_FAILURE);
 	}
-
+	
 	if((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen))<0){
 		perror("accept");
 		exit(EXIT_FAILURE);
 	}
-	cout << "comms connected" << endl;
 
+	cout <<"bout to read" << endl;
 	valread = read(new_socket, buffer, 1024);
 	cout << buffer << endl;
-	send(new_socket, hello, strlen(hello), 0);
-	cout << "sent the hello" << endl;
+	cout << "sleepy time" << endl;
 
 	string dataOut = buffer;
-	return dataOut;
+
+	//turn motors
+	std::string delimeter = " ";
+	size_t pos = dataOut.find(delimeter);
+
+	inputAngles[0] = stod(dataOut.substr(0, pos));
+	dataOut.erase(0, pos+delimeter.length());
+	inputAngles[1] = stod(dataOut.substr(0, pos));	
+		
+	cout << "the angles are " << inputAngles[0] << " and " << inputAngles[1] << endl;
+	turnMotorsToAngles(horiMotor, vertiMotor, inputAngles[0], inputAngles[1]);	
+	usleep(10000);	
+	cout << "bout to send" << endl;
+	int test = send(new_socket, ack, strlen(ack), 0);
+	cout << "data sent " << test << endl;
+	shutdown(server_fd, 2);
+	cout << "shutdown" << endl;
 }
+/*
+void commsSendAck(){
+	int server_fd, new_socket, valread;
+	struct sockaddr_in address;
+	int opt =1;
+	int addrlen = sizeof(address);
+	char *ack = "ready for data";
+	if((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0){
+		perror("socket failed");
+		exit(EXIT_FAILURE);
+	}	
 
+	if(setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt)))
+	{
+		perror("setsockopt");
+		exit(EXIT_FAILURE);
+	}	
+	address.sin_family = AF_INET;
+	address.sin_addr.s_addr = INADDR_ANY;
+	address.sin_port = htons(PORT);
+
+	if(bind(server_fd, (struct sockaddr *)&address, sizeof(address))<0){
+		perror("bind failed");
+		exit(EXIT_FAILURE);
+	}
+
+	if(listen(server_fd, 3) <0){
+		perror("listen");
+		exit(EXIT_FAILURE);
+	}
+	
+	if((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen))<0){
+		perror("accept");
+		exit(EXIT_FAILURE);
+	}
+
+	cout << "about to sleep" << endl;
+	usleep(50000000);
+	cout << "done sleeping" << endl;
+	send(new_socket, ack, strlen(ack), 0);
+	cout << "sent" <<endl;
+	usleep(50000000);
+	shutdown(server_fd, 2);
+}
+*/
 int main(){
+
 	bool terminate = false;
-	//			hori, verti
-	double inputAngles[2] = {0, 0};
-
-	string dataOut = "uninitialized";
-
+	
 	StepperMotor horiMotor;
 	StepperMotor vertiMotor;
 	horiMotor.initMotor(OUTPUT_PIN_1, OUTPUT_PIN_2, OUTPUT_PIN_3, OUTPUT_PIN_4);
 	vertiMotor.initMotor(OUTPUT_PIN_5, OUTPUT_PIN_6, OUTPUT_PIN_7, OUTPUT_PIN_8);
-	
+
 	while(terminate ==false){
-	
-		dataOut = CommsRecieve();
-
-		cout << dataOut << endl;
-
-		std::string delimeter = " ";
-		size_t pos = dataOut.find(delimeter);
-
-		inputAngles[0] = stod(dataOut.substr(0, pos));
-		dataOut.erase(0, pos+delimeter.length());
-		inputAngles[1] = stod(dataOut.substr(0, pos));	
-		
-		
-		cout << "the angles are " << inputAngles[0] << " and " << inputAngles[1] << endl;
-		turnMotorsToAngles(horiMotor, vertiMotor, inputAngles[0], inputAngles[1]);	
-
+		commsReceive(horiMotor, vertiMotor);
 	}
-
 }
 
 
