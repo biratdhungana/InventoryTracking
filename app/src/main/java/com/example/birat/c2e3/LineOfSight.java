@@ -3,6 +3,7 @@ package com.example.birat.c2e3;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -19,6 +20,12 @@ public class LineOfSight extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Hide the title bar
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getSupportActionBar().hide();
+        //Till here
+
         setContentView(R.layout.activity_line_of_sight);
 
         finishButton = (Button)findViewById(R.id.FinishButton);
@@ -41,9 +48,9 @@ public class LineOfSight extends AppCompatActivity {
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Thread setupSender = new Thread(new Sender(serverIP,8008,"Line of Sight: " + lineOfSight.getText().toString() + "Doorway: " + doorway.getText().toString() +
-                        "Corner1: " + cornerOne.getText().toString() + "Corner2: " + cornerTwo.getText().toString() + "Corner3: " + cornerThree.getText().toString()+
-                        "Camera1: " + cameraOne.getText().toString()+ "Camera2: " + cornerTwo.getText().toString()+ "Camera3: " + cameraThree.getText().toString()));
+                Thread setupSender = new Thread(new Sender(serverIP,8008,"Line of Sight:" + lineOfSight.getText().toString() +" " + "Doorway:" + doorway.getText().toString() +" " +
+                        "Corner1:" + cornerOne.getText().toString() + " " + "Corner2:" + cornerTwo.getText().toString()+ " "  + "Corner3:" + cornerThree.getText().toString() + " " +
+                        "Camera1:" + cameraOne.getText().toString() + " " + "Camera2:" + cornerTwo.getText().toString()+ " " + "Camera3:" + cameraThree.getText().toString() + " "));
                 setupSender.start();
             }
         });

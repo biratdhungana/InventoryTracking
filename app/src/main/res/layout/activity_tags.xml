@@ -8,7 +8,7 @@
         android:id="@+id/Background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@drawable/background"
         android:scaleType="centerCrop"/>
 
     <Button
@@ -26,11 +26,31 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/testButton"
+        android:id="@+id/TagButton1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tag 1"
         android:layout_below="@id/placeHolder"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/TagButton2"
+        android:text="Tag 2"
+        android:layout_below="@id/TagButton1"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/TagButton3"
+        android:text="Tag 3"
+        android:layout_below="@id/TagButton2"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/TagButton4"
+        android:text="Tag 4"
+        android:layout_below="@id/TagButton3"/>
 
 </RelativeLayout>

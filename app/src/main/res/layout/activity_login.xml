@@ -8,19 +8,30 @@
         android:id="@+id/Background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@drawable/background"
         android:scaleType="centerCrop"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/logopic"
+        android:src="@mipmap/logo"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"/>
 
     <TextView
         android:id="@+id/welcomemessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome To C2E3"
+        android:text="Welcome To C3E2"
+        android:textSize="36dp"
+        android:textStyle="italic"
+        android:textAlignment="gravity"
         android:layout_centerInParent="true"
-        android:layout_alignParentTop="true"/>
+        android:layout_below="@id/logopic"/>
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/usernameSpace"
         android:hint="Username"
@@ -29,7 +40,7 @@
 
     <EditText
         android:id="@+id/passwordSpace"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
         android:inputType="textPassword"
@@ -50,6 +61,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/passwordSpace"
         android:layout_toRightOf="@id/loginButton"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/SignUpButton"
+        android:text="Sign Up"
+        android:layout_toRightOf="@id/resetButton"/>
 
     <Button
         android:id="@+id/SetupButton"
