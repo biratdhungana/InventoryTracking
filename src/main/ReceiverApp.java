@@ -15,6 +15,7 @@ public class ReceiverApp {
 	public double zNew;
 	
 	public double[] referenceLine;
+	public double[] camera1;
 
 	public boolean firstLoop = true;
 
@@ -61,9 +62,8 @@ public class ReceiverApp {
 				 	double[] updatedAngles = new double[]{xNew, yNew, zNew};
 					 
 				 	CameraLineOfSight camera = new CameraLineOfSight();
-			       	 	double[] angles = camera.angles(updatedAngles);
-					
-			       	 
+			       	double[] angles = camera.angles(updatedAngles);
+					 
 					SendToCamera sendCamera = new SendToCamera();
 
 					try {
@@ -80,18 +80,20 @@ public class ReceiverApp {
 		
 		System.out.println("Server  ready to receive initial data from App");
 		
-	        ServerSocket sersock = new ServerSocket(8008);
-	        Socket sock = sersock.accept();                          
-	        InputStream istream = sock.getInputStream();
-	        BufferedReader receiveRead = new BufferedReader(new InputStreamReader(istream));
-		 
-	        String receiveMessage;               
-	        if((receiveMessage = receiveRead.readLine()) != null)  
-	        {
-	           System.out.println("Data received from App: " + receiveMessage);         
-		   sersock.close();
+        ServerSocket sersock = new ServerSocket(8008);
+        Socket sock = sersock.accept();                          
+        InputStream istream = sock.getInputStream();
+        BufferedReader receiveRead = new BufferedReader(new InputStreamReader(istream));
+	 
+        String receiveMessage;               
+        if((receiveMessage = receiveRead.readLine()) != null)  
+        {
+           System.out.println("Data received from App: " + receiveMessage);         
+           sersock.close();	
 		}         
-                String[] coordinates = receiveMessage.split(":");
+        
+        //Parse Reference Line for Camera 1
+	    String[] coordinates = receiveMessage.split(":");
 		String sReference = coordinates[1].substring(0, coordinates[1].length()-7);
 		String sReferenceX = sReference.substring(0, sReference.indexOf(","));
 		String sReferenceY = sReference.substring(sReference.indexOf(",")+1, sReference.indexOf(",", sReference.indexOf(",")+1));   
@@ -101,10 +103,21 @@ public class ReceiverApp {
 		double yReference = Double.parseDouble(sReferenceY);
 		double zReference = Double.parseDouble(sReferenceZ);
 
-                referenceLine = new double[]{xReference, yReference, zReference};
-
+        referenceLine = new double[]{xReference, yReference, zReference};
 		System.out.println("Reference Line = " + referenceLine[0] + " " + referenceLine[1] + " " + referenceLine[2]);
-	      
+	    
+		//Parse Location for camera1
+		String sCamera1 = coordinates[8].substring(0, coordinates[8].length()-7);
+		String sCamera1X = sCamera1.substring(0, sCamera1.indexOf(","));
+		String sCamera1Y = sCamera1.substring(sCamera1.indexOf(",")+1, sCamera1.indexOf(",", sCamera1.indexOf(",")+1));   
+		String sCamera1Z = sCamera1.substring(sCamera1.indexOf(",", sCamera1.indexOf(",")+1)+1, sCamera1.length());
+		
+		double xCamera1 = Double.parseDouble(sCamera1X);
+		double yCamera1 = Double.parseDouble(sCamera1Y);
+		double zCamera1 = Double.parseDouble(sCamera1Z);
+		
+		camera1 = new double[] {xCamera1, yCamera1, zCamera1};
+		System.out.println("Camera 1 location = " + camera1[0] + " " + camera1[1] + " " + camera1[2]);
 	}
 
 	public void receiveTagApp() throws Exception {

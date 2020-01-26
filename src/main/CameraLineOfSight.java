@@ -8,10 +8,13 @@ import java.util.*;
 public class CameraLineOfSight {
 
 	//public static double[] tagLocation = new double[]{50,10,90};
-	public static double[] cameraLocation = new double[]{1600,0,200};
+	public static double[] cameraLocation;
+	public static double[] updatedReference;
 	
 	public static double[] doorEdge1 = new double[]{10,20,0};
 	public static double[] doorEdge2 = new double[]{15,40,7};
+	
+	public static int counter = 0;
 
 	//public static double[] referenceLine = new double[]{0, 0, 0};
 	
@@ -56,10 +59,19 @@ public class CameraLineOfSight {
 		//http://www.nabla.hr/PC-LinePlaneIn3DSp2.htm
 		
 
-                ReceiverApp rApp = new ReceiverApp();
+        ReceiverApp rApp = new ReceiverApp();
+        double[] referenceLine;
 
-		//double[] referenceLine = rApp.referenceLine; 
-		double[] referenceLine = new double[] {40, 50, 60};
+        if(counter == 0) {
+        	referenceLine = rApp.referenceLine;
+        }
+        else {
+        	referenceLine = updatedReference;
+        }
+        
+        cameraLocation = rApp.camera1;
+		 
+		//double[] referenceLine = new double[] {40, 50, 60};
 		System.out.println("Initial Camera Line of Sight = " + referenceLine[0] + "," + referenceLine[1] + "," + referenceLine[2]);
 		
 		//Angle of Elevation
@@ -82,6 +94,9 @@ public class CameraLineOfSight {
 	
 		
 		double[] angles = new double[] {updownAngle, sidewaysAngle};
+		
+		updatedReference = angles;
+		counter++;
 		
 		return angles;  //send these 3 angles to the camera controlling rpi to move the motors based on these angles
 		
