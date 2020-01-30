@@ -23,7 +23,7 @@ public class Database {
 
 	public Connection connect() {
 		Connection conn = null;
-		String url = "jdbc:sqlite:M:/SYSC3010/SYSC3010Project/SQL/Database.db";		//path to db file
+		String url = "jdbc:mysql:M:/SYSC3010/SYSC3010Project/SQL/Database.db";		//path to db file
 	    try {
 	    	conn = DriverManager.getConnection(url);  		//from imports. creates a connection to the DHU	            
 	    } catch (SQLException e) {
@@ -32,19 +32,20 @@ public class Database {
 	    return conn;
 	    }
 	 
-	public void insert(float Temperature, boolean Fire, boolean Smoke) {
-		int fire, smoke;
-		fire = Fire ? 1:0;									//since DHU unit passes boolean values and the database uses
-		smoke = Smoke ? 1:0;								//integers, this simple loop assigns a 1 if true else assigns false. 
+	public void insert(String id, Double x, Double y, Double z) {
+		//int fire, smoke;
+		//fire = Fire ? 1:0;									//since DHU unit passes boolean values and the database uses
+		//smoke = Smoke ? 1:0;								//integers, this simple loop assigns a 1 if true else assigns false. 
 															//This is for Fire and Smoke values only
 
-		String sql = "INSERT INTO DHU_Database(Temperature,Fire,Smoke) VALUES(?,?,?)";   //creates a insert method to accept data in
+		String sql = "INSERT INTO tags(idTags,xCoordinate,yCoordinate,zCoordinate) VALUES(?,?,?,?)";   //creates a insert method to accept data in
 	 
 	        try (Connection conn = this.connect();
 	            PreparedStatement statement = conn.prepareStatement(sql)) {					//Validates connection to put desired string in database
-	            statement.setFloat(1, Temperature);											//assigns first entry for Temperature	
-	            statement.setInt(2, fire);													//assigns second entry for fire
-	            statement.setInt(3, smoke);													//assigns third entry for smoke
+	            statement.setString(1, id);											//assigns first entry for Temperature	
+	            statement.setDouble(2, x);													//assigns second entry for fire
+	            statement.setDouble(3, y);													//assigns third entry for smoke
+	            statement.setDouble(4, z);
 	            statement.executeUpdate();													//updates table here
 	        } catch (SQLException e) {
 	            System.out.println(e.getMessage());										//catches any exceptions that is not accounted for (invalid inputs)
@@ -53,16 +54,15 @@ public class Database {
 	
 	public String retrieveLastEntry() {
 		String s ="";
-		String sql="select * from (select * from DHU_Database order by ID DESC limit 1) order by ID ASC";
+		String sql="SELECT * FROM (SELECT * FROM tags ORDER BY idTags DESC limit 1) ORDER BY idTags ASC";
 		try (Connection conn = this.connect();
 				Statement st = conn.createStatement();
 				ResultSet r = st.executeQuery(sql)){
 			
-			 s = (r.getInt("ID")+ ":" +
-					r.getFloat("Temperature") + ":" +
-					r.getInt("Fire") + ":" + 
-					r.getInt("Smoke") + ":" +
-					r.getString("Time"));
+			 s = (r.getString("idTags")+ "," +
+					r.getDouble("xCoordinate") + "," +
+					r.getDouble("yCoordinate") + "," + 
+					r.getDouble("zCoordinate"));
 			//System.out.println(s);
 			
 		} catch (SQLException e) {
