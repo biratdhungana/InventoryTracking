@@ -1,28 +1,14 @@
 package main;
 import java.sql.*;
 
-//SQLite Database created on command prompt. code is as follows
-
-/*M:\sql>sqlite3 DHU                                                              //Database created here
-SQLite version 3.21.0 2017-10-24 18:55:49
-Enter ".help" for usage hints.
-sqlite> create table DHU_Database(ID INTEGER PRIMARY KEY AUTOINCREMENT, Temperature Float, Fire INTEGER, Smoke INTEGER, Time DATETIME DEFAULT(STRFTIME('%d-%m-%Y  %H:%M', 'NOW', 'localtime'))); //Table created here
-sqlite> INSERT INTO DHU_Database(Temperature, Fire, Smoke) VALUES (24.0,0,0);	  //Inserting fake values to check if the database and table is active
-sqlite> INSERT INTO DHU_Database(Temperature, Fire, Smoke) VALUES (23.0,1,1);
-sqlite> INSERT INTO DHU_Database(Temperature, Fire, Smoke) VALUES (20.0,1,0);
-sqlite> SELECT*FROM DHU_Database												  //Prints the specified table present in the database
-   ...> ;
-1|24.0|0|0|27-11-2017  12:58
-2|23.0|1|1|27-11-2017  12:59
-3|20.0|1|0|27-11-2017  12:59
-sqlite>
-*/
+//MySQl Database created on MySQL Workbench GUI. 
 
 public class Database {
 	
 
 	public Connection connect() {
 		Connection conn = null;
+		//THIS URL PATH NEEDS TO BE CHANGED ACCORDING TO DATABASE LOCATION IN RASPBERRY PI	
 		String url = "jdbc:mysql:M:/SYSC3010/SYSC3010Project/SQL/Database.db";		//path to db file
 	    try {
 	    	conn = DriverManager.getConnection(url);  		//from imports. creates a connection to the DHU	            
@@ -33,136 +19,62 @@ public class Database {
 	    }
 	 
 	public void insert(String id, Double x, Double y, Double z) {
-		//int fire, smoke;
-		//fire = Fire ? 1:0;									//since DHU unit passes boolean values and the database uses
-		//smoke = Smoke ? 1:0;								//integers, this simple loop assigns a 1 if true else assigns false. 
-															//This is for Fire and Smoke values only
 
-		String sql = "INSERT INTO tags(idTags,xCoordinate,yCoordinate,zCoordinate) VALUES(?,?,?,?)";   //creates a insert method to accept data in
+		String sqlDelete = "DELETE FROM tags WHERE idTags=" + id;
+		String sqlInsert = "INSERT INTO tags(idTags,xCoordinate,yCoordinate,zCoordinate) VALUES(?,?,?,?)";   //creates a insert method to accept data in
 	 
+			try (Connection conn = this.connect();
+	            PreparedStatement statementDelete = conn.prepareStatement(sqlDelete)) {					//Validates connection to put desired string in database
+	            statementDelete.executeUpdate();													//updates table here
+	            System.out.println("Deleted from database");
+			} catch (SQLException e) {
+	            System.out.println(e.getMessage());										//catches any exceptions that is not accounted for (invalid inputs)
+	        }
+		
 	        try (Connection conn = this.connect();
-	            PreparedStatement statement = conn.prepareStatement(sql)) {					//Validates connection to put desired string in database
-	            statement.setString(1, id);											//assigns first entry for Temperature	
-	            statement.setDouble(2, x);													//assigns second entry for fire
-	            statement.setDouble(3, y);													//assigns third entry for smoke
-	            statement.setDouble(4, z);
-	            statement.executeUpdate();													//updates table here
+	            PreparedStatement statementInsert = conn.prepareStatement(sqlInsert)) {					//Validates connection to put desired string in database
+	            statementInsert.setString(1, id);											//assigns first entry for tag id	
+	            statementInsert.setDouble(2, x);													//assigns second entry for x coordinate
+	            statementInsert.setDouble(3, y);													//assigns third entry for y coordinate
+	            statementInsert.setDouble(4, z);													//assigns fourth entry for z coordinate
+	            statementInsert.executeUpdate();													//updates table here
+	            System.out.println("Inserted into Database");
 	        } catch (SQLException e) {
 	            System.out.println(e.getMessage());										//catches any exceptions that is not accounted for (invalid inputs)
 	        }
 	    }
 	
-	public String retrieveLastEntry() {
+	public double[] retrieveLastEntry(String tagId) {
 		String s ="";
-		String sql="SELECT * FROM (SELECT * FROM tags ORDER BY idTags DESC limit 1) ORDER BY idTags ASC";
+		double[] lastEntry = null;
+		//String sql="SELECT * FROM (SELECT * FROM tags ORDER BY idTags DESC limit 1) ORDER BY idTags ASC";
+		String sql = "SELECT * FROM tags WHERE idTags=" + tagId;
 		try (Connection conn = this.connect();
 				Statement st = conn.createStatement();
 				ResultSet r = st.executeQuery(sql)){
 			
-			 s = (r.getString("idTags")+ "," +
-					r.getDouble("xCoordinate") + "," +
-					r.getDouble("yCoordinate") + "," + 
+			 s = (r.getString("idTags")+ ", " +
+					r.getDouble("xCoordinate") + ", " +
+					r.getDouble("yCoordinate") + ", " + 
 					r.getDouble("zCoordinate"));
-			//System.out.println(s);
+				
+			System.out.println("retrieveLastEntry: " + s);
+			
+			lastEntry = new double[] {r.getDouble("xCoordinate"), r.getDouble("yCoordinate"), r.getDouble("zCoordinate")};
+			
 			
 		} catch (SQLException e) {
 			 //System.out.println(e.getMessage());
 			 System.out.println("error");
 		}
 		
-		return s;
+		
+		
+		return lastEntry;
+		
+		
 	}
-
 	
-	public void getFire(boolean Fire){
-		int fire;
-		if (Fire = true) {
-			fire = 0;
-		} else {
-			fire = -1;
-		}
-		
-		String sql = "SELECT ID, Temperature, Fire, Smoke "								//sql query to select an entry
-                       + "FROM DHU_Database WHERE Fire > ?";
-            
-		try (Connection conn = this.connect();
-				PreparedStatement ptsd  = conn.prepareStatement(sql)){					//validates connection
-			ptsd.setInt(1,fire);														//sets the value 
-			ResultSet rs  = ptsd.executeQuery();										//Executes query
-         
-			while (rs.next()) {															//while loop through loop through database and 
-				System.out.println(rs.getInt("ID") +  "\t" + 							//get all results where fire entry is true
-            		 			rs.getFloat("Temperature") + "\t" +
-                                rs.getInt("Fire") + "\t" +
-                                rs.getInt("Smoke"));
-				}
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());										//catches any exceptions
-				}
-		}
-	
-	public void getSmoke(boolean Smoke){
-		int smoke;
-		if(Smoke = true) {
-			smoke = 0;
-		} else {
-			smoke = -1;
-		}
-		
-		String sql = "SELECT ID, Temperature, Fire, Smoke "								//sql query to select an entry
-                       + "FROM DHU_Database WHERE Fire > ?";
-            
-		try (Connection conn = this.connect();
-				PreparedStatement ptsd  = conn.prepareStatement(sql)){					//validates connection
-			ptsd.setInt(1,smoke);														//sets the value 
-			ResultSet rs  = ptsd.executeQuery();										//Executes query
-         
-			while (rs.next()) {															//while loop through loop through database and 
-				if (rs.next() == true) {
-				System.out.println(rs.getInt("ID") +  "\t" + 							//get all results where fire entry is true
-            		 			rs.getFloat("Temperature") + "\t" +
-                                rs.getInt("Fire") + "\t" +
-                                rs.getInt("Smoke"));
-				}
-		}
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());										//catches any exceptions
-				}
-		}
-	
-		public String getAllEntries() {
-		String s ="";
-		String sql="select * from (select * from DHU_Database) order by ID ASC";
-		try (Connection conn = this.connect();
-				Statement st = conn.createStatement();
-				ResultSet r = st.executeQuery(sql)){
-		
-			while(r.next()) {
-			 s = (r.getInt("ID")+ "\t" +
-					r.getFloat("Temperature") + "\t" +
-					r.getInt("Fire") + "\t" + 
-					r.getInt("Smoke") + "\t" +
-					r.getString("Time"));
-			System.out.println(s);
-			}
-			
-		} catch (SQLException e) {
-			 //System.out.println(e.getMessage());
-			 System.out.println("error");
-		}
-		return s;
-	}
-	/*	public String reOrderDatabase() {
-		DELETE FROM DHU_Database
-		SELECT*FROM DHU_Database;
-	}*/
-	
-    /*public static void main(String[] args) {
-        Database x = new Database();												//used to test connection and functionality of the database
-        x.retrieveLastEntry();
-    }*/
-	
-
 }
 
 /*

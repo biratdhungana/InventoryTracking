@@ -24,7 +24,7 @@ public class SenderApp {
 		try {
 			Socket s = new Socket(ip, port);
 			PrintWriter pw = new PrintWriter(s.getOutputStream());
-			pw.write(database.retrieveLastEntry());      //The latest 5 snapshots in the database will be retrieved and sent to the app
+			//pw.write(database.retrieveLastEntry());      //The latest 5 snapshots in the database will be retrieved and sent to the app
 			pw.flush();
 			pw.close();
 		} catch (IOException e1) {

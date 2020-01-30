@@ -18,6 +18,8 @@ public class ReceiverApp {
 	public double[] camera1;
 
 	public boolean firstLoop = true;
+	
+	public String tagId;
 
 	public ReceiverApp() {
 
@@ -58,11 +60,14 @@ public class ReceiverApp {
 					xNew = Double.parseDouble(xUpdate);
 					yNew = Double.parseDouble(yUpdate);
 				 	zNew = Double.parseDouble(zUpdate);
+				 	
+				 	Database db = new Database();
+				 	db.insert(this.tagId, xNew, yNew, zNew);
 				 
-				 	double[] updatedAngles = new double[]{xNew, yNew, zNew};
+				 	double[] updatedCoordinates = db.retrieveLastEntry(this.tagId);
 					 
 				 	CameraLineOfSight camera = new CameraLineOfSight();
-			       	double[] angles = camera.angles(updatedAngles);
+			       	double[] angles = camera.angles(updatedCoordinates);
 					 
 					SendToCamera sendCamera = new SendToCamera();
 
@@ -133,7 +138,8 @@ public class ReceiverApp {
 		      String receiveMessage;               
 		      if((receiveMessage = receiveRead.readLine()) != null)  
 		      {
-		         System.out.println("Data received from App: " + receiveMessage);         
+		         System.out.println("Data received from App: " + receiveMessage);  
+		         tagId = receiveMessage;
 			     sersock.close();
 		      }         
 		      //this.receiveLocationData();
