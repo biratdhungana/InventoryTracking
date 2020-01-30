@@ -1,5 +1,5 @@
 package main;
-import java.sql.*
+import java.sql.*;
 
 //SQLite Database created on command prompt. code is as follows
 
