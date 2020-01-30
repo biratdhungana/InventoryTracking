@@ -25,7 +25,7 @@ public class ReceiverApp {
 	
 	public void receiveLocationData() throws Exception {
 		
-		  System.out.println("Server  ready to receive tag location data");
+		  System.out.println("Server ready to receive tag location data");
 		  
           	  while (true){
 		              ServerSocket sersock = new ServerSocket(6001);
@@ -78,7 +78,7 @@ public class ReceiverApp {
 	
 	public void receiveInitialApp() throws Exception {
 		
-		System.out.println("Server  ready to receive initial data from App");
+		System.out.println("Server ready to receive initial data from App");
 		
         ServerSocket sersock = new ServerSocket(8008);
         Socket sock = sersock.accept();                          
@@ -122,7 +122,7 @@ public class ReceiverApp {
 
 	public void receiveTagApp() throws Exception {
 		
-		System.out.println("Server  ready to receive Tag data from App");
+		System.out.println("Server ready to receive Tag data from App");
 		
         	while (true){
 		      ServerSocket sersock = new ServerSocket(7007);
