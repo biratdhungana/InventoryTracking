@@ -61,10 +61,11 @@ public class ReceiverApp {
 					yNew = Double.parseDouble(yUpdate);
 				 	zNew = Double.parseDouble(zUpdate);
 				 	
-				 	Database db = new Database();
-				 	db.insert(this.tagId, xNew, yNew, zNew);
+				 	//Database db = new Database();
+				 	//db.insert(this.tagId, xNew, yNew, zNew);
 				 
-				 	double[] updatedCoordinates = db.retrieveLastEntry(this.tagId);
+				 	//double[] updatedCoordinates = db.retrieveLastEntry(this.tagId);
+				 	double[] updatedCoordinates = new double[]{xNew, yNew, zNew};
 					 
 				 	CameraLineOfSight camera = new CameraLineOfSight();
 			       	double[] angles = camera.angles(updatedCoordinates);
