@@ -58,7 +58,7 @@ public class ReceiverCameraData implements Runnable {
 			
 			ReceiverApp locationUpdate = new ReceiverApp();
 			try {
-				locationUpdate.receiveLocationData();
+				//locationUpdate.receiveLocationData();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

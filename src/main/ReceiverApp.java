@@ -212,6 +212,9 @@ public class ReceiverApp {
 		
 		corner3 = new double[] {xCorner3, yCorner3, zCorner3};
 		System.out.println("Corner 3 location = " + corner3[0] + " " + corner3[1] + " " + corner3[2]);
+		
+		//Now that we have received all initial data we can start polling for tag location
+		this.receiveLocationData();
 	}
 
 	public void receiveTagApp() throws Exception {
