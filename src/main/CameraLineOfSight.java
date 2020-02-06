@@ -53,7 +53,7 @@ public class CameraLineOfSight {
 		//Based on this angle, the motors will move the camera to this angle from the reference point/line
 	}
 	
-	public static double[] angles(double[] tagLocation) {
+	public static double[] angles(double[] tagLocation, double[] lineofsight, double[] camera) {
 		
 		//Calculated the angles for the movement of the camera based on the following link:
 		//http://www.nabla.hr/PC-LinePlaneIn3DSp2.htm
@@ -63,13 +63,13 @@ public class CameraLineOfSight {
         double[] referenceLine;
 
         if(counter == 0) {
-        	referenceLine = rApp.referenceLine;
+        	referenceLine = lineofsight;
         }
         else {
         	referenceLine = updatedReference;
         }
         
-        cameraLocation = rApp.camera1;
+        cameraLocation = camera;
 		 
 		//double[] referenceLine = new double[] {40, 50, 60};
 		System.out.println("Initial Camera Line of Sight = " + referenceLine[0] + "," + referenceLine[1] + "," + referenceLine[2]);
