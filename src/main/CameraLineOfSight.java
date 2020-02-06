@@ -102,18 +102,6 @@ public class CameraLineOfSight {
 		
 	}
 	
-	public static void main(String[] args) {
-		
-		//double[] lineofsight = equationOfLine(cameraLocation, tagLocation);
-		//System.out.println("z = " + lineofsight[0] + "x" + lineofsight[1]+ "y" + lineofsight[2]);
-		
-		double[] entranceBoundary = equationOfLine(doorEdge1, doorEdge2);
-		System.out.println("z = " + entranceBoundary[0] + "x" + entranceBoundary[1]+ "y" + entranceBoundary[2]);
-
-		
-		
-	}
-	
 	
 		
 }
