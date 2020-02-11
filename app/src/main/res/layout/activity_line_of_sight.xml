@@ -15,16 +15,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Guide"
-        android:layout_margin="45dp"
+        android:layout_margin="10dp"
         android:text="All the input in this page should be for cordinates and seperated by Commas (X,Y,Z)"/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/LineOfSightSpace"
-        android:hint="Coordinates for Line of Sight "
+        android:hint="Coordinates for Line of Sight 1"
         android:inputType="text"
         android:layout_below="@id/Guide"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/LineOfSightSpace2"
+        android:hint="Coordinates for Line of Sight 2"
+        android:inputType="text"
+        android:layout_below="@id/LineOfSightSpace"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -32,35 +40,42 @@
         android:id="@+id/Doorway1"
         android:hint="Coodrinates of Doorway"
         android:inputType="text"
-        android:layout_below="@id/LineOfSightSpace"/>
+        android:layout_below="@id/LineOfSightSpace2"/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Corner1"
-        android:hint="Cordinates of Corner 1"
+        android:hint="Coordinates of Corner 1"
         android:layout_below="@id/Doorway1"/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Corner2"
-        android:hint="Cordinates of Corner 2"
+        android:hint="Coordinates of Corner 2"
         android:layout_below="@id/Corner1"/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Corner3"
-        android:hint="Cordinates of Corner 3"
+        android:hint="Coordinates of Corner 3"
         android:layout_below="@id/Corner2"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Corner4"
+        android:hint="Coordinates of Corner 4"
+        android:layout_below="@id/Corner3"/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Camera1"
         android:hint="Cordinates of Camera 1"
-        android:layout_below="@id/Corner3"/>
+        android:layout_below="@id/Corner4"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -81,7 +96,7 @@
         android:layout_height="wrap_content"
         android:text="Finish Setup"
         android:id="@+id/FinishButton"
-        android:layout_toRightOf="@id/Camera3"
+        android:layout_below="@id/Camera3"
         android:layout_alignParentRight="true"/>
 
 
