@@ -21,6 +21,7 @@ public class ReceiverApp {
 	public double[] corner1;
 	public double[] corner2;
 	public double[] corner3;
+	public double[] corner4;
 
 	public boolean firstLoop = true;
 	
@@ -35,9 +36,9 @@ public class ReceiverApp {
 		  System.out.println("Server ready to receive tag location data");
 		  
           	  while (true){
-		              ServerSocket sersock = new ServerSocket(6001);
+		          ServerSocket sersock = new ServerSocket(6001);
 			      Socket sock = sersock.accept();
-		              InputStream istream = sock.getInputStream();
+		          InputStream istream = sock.getInputStream();
 			      InputStreamReader isr = new InputStreamReader(istream);
 			      BufferedReader receiveRead = new BufferedReader(isr);
 			      sersock.close(); 
@@ -72,9 +73,13 @@ public class ReceiverApp {
 				 	//double[] updatedCoordinates = db.retrieveLastEntry(this.tagId);
 				 	double[] updatedCoordinates = new double[]{xNew, yNew, zNew};
 				 	
-				 	//if(in room 1) {   code to send angles to camera depending on which room tag is in
-					 
-					 	CameraLineOfSight camera = new CameraLineOfSight();
+				 	CameraLineOfSight camera = new CameraLineOfSight();
+				 	
+				 	//check if tag is in room 1 or 2 - returns true if in room 1
+				 	boolean inRoom1 = camera.activateCamera1(updatedCoordinates, corner1, corner2, corner3, corner4);
+				 	
+				 	if(inRoom1 == true) {  //send angles to camera in room 1
+
 				       	double[] angles = camera.angles(updatedCoordinates, referenceLine1, camera1);
 						 
 						SendToCamera sendCamera = new SendToCamera();
@@ -86,9 +91,8 @@ public class ReceiverApp {
 						 catch (Exception e) {
 							 e.printStackTrace();
 						 }
-			        //}
-					/*else {
-					  CameraLineOfSight camera = new CameraLineOfSight();
+			        }
+				 	else {   //send angles to camera in room 2
 				       double[] angles = camera.angles(updatedCoordinates, referenceLine2, camera2);
 						 
 						SendToCamera sendCamera = new SendToCamera();
@@ -99,8 +103,8 @@ public class ReceiverApp {
 						 }
 						 catch (Exception e) {
 							 e.printStackTrace();
-					 
-					 */
+						 }
+				 	}
 			      }
 			}
 	}
@@ -149,7 +153,7 @@ public class ReceiverApp {
 		System.out.println("Reference Line of Camera 2 = " + referenceLine2[0] + " " + referenceLine2[1] + " " + referenceLine2[2]);
 	    
 		//Parse Location for camera1
-		String sCamera1 = coordinates[7].substring(0, coordinates[7].length()-7);
+		String sCamera1 = coordinates[8].substring(0, coordinates[8].length()-7);
 		String sCamera1X = sCamera1.substring(0, sCamera1.indexOf(","));
 		String sCamera1Y = sCamera1.substring(sCamera1.indexOf(",")+1, sCamera1.indexOf(",", sCamera1.indexOf(",")+1));   
 		String sCamera1Z = sCamera1.substring(sCamera1.indexOf(",", sCamera1.indexOf(",")+1)+1, sCamera1.length());
@@ -162,7 +166,7 @@ public class ReceiverApp {
 		System.out.println("Camera 1 location = " + camera1[0] + " " + camera1[1] + " " + camera1[2]);
 		
 		//Parse Location for camera2
-		String sCamera2 = coordinates[8].substring(0, coordinates[8].length());
+		String sCamera2 = coordinates[9].substring(0, coordinates[9].length());
 		String sCamera2X = sCamera2.substring(0, sCamera2.indexOf(","));
 		String sCamera2Y = sCamera2.substring(sCamera2.indexOf(",")+1, sCamera2.indexOf(",", sCamera2.indexOf(",")+1));   
 		String sCamera2Z = sCamera2.substring(sCamera2.indexOf(",", sCamera2.indexOf(",")+1)+1, sCamera2.length());
@@ -200,7 +204,7 @@ public class ReceiverApp {
 		corner2 = new double[] {xCorner2, yCorner2, zCorner2};
 		System.out.println("Corner 2 location = " + corner2[0] + " " + corner2[1] + " " + corner2[2]);
 		
-		//Parse Location for Corner2
+		//Parse Location for Corner3
 		String sCorner3 = coordinates[6].substring(0, coordinates[6].length()-7);
 		String sCorner3X = sCorner3.substring(0, sCorner3.indexOf(","));
 		String sCorner3Y = sCorner3.substring(sCorner3.indexOf(",")+1, sCorner3.indexOf(",", sCorner3.indexOf(",")+1));   
@@ -213,28 +217,52 @@ public class ReceiverApp {
 		corner3 = new double[] {xCorner3, yCorner3, zCorner3};
 		System.out.println("Corner 3 location = " + corner3[0] + " " + corner3[1] + " " + corner3[2]);
 		
+		//Parse Location for Corner4
+		String sCorner4 = coordinates[7].substring(0, coordinates[7].length()-7);
+		String sCorner4X = sCorner4.substring(0, sCorner4.indexOf(","));
+		String sCorner4Y = sCorner4.substring(sCorner4.indexOf(",")+1, sCorner4.indexOf(",", sCorner4.indexOf(",")+1));   
+		String sCorner4Z = sCorner4.substring(sCorner4.indexOf(",", sCorner4.indexOf(",")+1)+1, sCorner4.length());
+		
+		double xCorner4 = Double.parseDouble(sCorner4X);
+		double yCorner4 = Double.parseDouble(sCorner4Y);
+		double zCorner4 = Double.parseDouble(sCorner4Z);
+		
+		corner4 = new double[] {xCorner4, yCorner4, zCorner4};
+		System.out.println("Corner 4 location = " + corner4[0] + " " + corner4[1] + " " + corner4[2]);
+		
 		//Now that we have received all initial data we can start polling for tag location
-		this.receiveLocationData();
+		this.receiveTagApp();
 	}
 
 	public void receiveTagApp() throws Exception {
 		
 		System.out.println("Server ready to receive Tag data from App");
 		
+		ReceiverCameraData r = new ReceiverCameraData();
+		int tagCounter = 0;
+		
         	while (true){
-		      ServerSocket sersock = new ServerSocket(7007);
-		      Socket sock = sersock.accept();                          
-		      InputStream istream = sock.getInputStream();
-		      BufferedReader receiveRead = new BufferedReader(new InputStreamReader(istream));
-		 
-		      String receiveMessage;               
-		      if((receiveMessage = receiveRead.readLine()) != null)  
-		      {
-		         System.out.println("Data received from App: " + receiveMessage);  
-		         tagId = receiveMessage;
-			     sersock.close();
-		      }         
-		      //this.receiveLocationData();
+			      ServerSocket sersock = new ServerSocket(7007);
+			      Socket sock = sersock.accept();                          
+			      InputStream istream = sock.getInputStream();
+			      BufferedReader receiveRead = new BufferedReader(new InputStreamReader(istream));
+			 
+			      String receiveMessage;               
+			      if((receiveMessage = receiveRead.readLine()) != null)  
+			      {
+			         System.out.println("Data received from App: " + receiveMessage);  
+			         tagId = receiveMessage;
+				     sersock.close();
+			      }
+			      if(tagCounter==0) {
+			    	  //r.receiveTagLocation.start();   uncomment this when we want multiple tags system
+			    	  this.receiveLocationData();
+			      }
+			      else {
+			    	  //r.receiveTagLocation.interrupt();    uncomment this when we want multiple tags system
+			    	  //r.receiveTagLocation.start();        uncomment this when we want multiple tags system
+			      }
+			      tagCounter++;
 
 	      
 	    	 }               

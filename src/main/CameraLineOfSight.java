@@ -26,32 +26,6 @@ public class CameraLineOfSight {
 		return cameraLocation;
 	}
 	
-	/*public double[] getTagLocation() {
-		return tagLocation;
-	}*/
-	
-	public static double[] equationOfLine(double[] cameraLocation, double[] tagLocation) {
-		
-		//THIS METHOD MIGHT NOT BE NEEDED ANYMORE	
-		//No point in calculating equation of line if we can calculate the angles to move camera directly in angles method below
-		//This method might still be useful for calculation of walls of room and doorway
-		
-		//vector v = cameraLocation - tagLocation
-		double[] v = new double[] {tagLocation[0]-cameraLocation[0], tagLocation[1]-cameraLocation[1], tagLocation[2]-cameraLocation[2]};
-		//vector r (not required for calculation)
-		double[] r = new double[] {cameraLocation[0]+v[0], cameraLocation[1]+v[1], cameraLocation[2]+v[2]};
-		
-		//Equation of line in 3D space = ax+by+c
-		double a = v[1]*v[2];
-		double b = -v[0]*v[2];
-       		double c = (cameraLocation[0]*v[1] - cameraLocation[1]*v[0])*v[2]+cameraLocation[2];
-		
-		double[] equationCoordinates = new double[] {a, b, c};
-		return equationCoordinates;
-		
-		//Information to be sent to Arduino: Angle in comparison to a reference point/line
-		//Based on this angle, the motors will move the camera to this angle from the reference point/line
-	}
 	
 	public static double[] angles(double[] tagLocation, double[] lineofsight, double[] camera) {
 		
@@ -100,6 +74,39 @@ public class CameraLineOfSight {
 		
 		return angles;  //send these 3 angles to the camera controlling rpi to move the motors based on these angles
 		
+	}
+	
+	public static double areaTriangle(double[] a, double[] b, double[] c) {
+		
+		double area = Math.abs((a[0] * (b[1] - c[1]) +  b[0] * (c[1] - a[1]) + c[0] * (a[1] - b[1])) / 2.0);
+		
+		return area;
+	}
+	
+	public static double areaRectangle(double a[], double b[], double c[], double d[]) {
+		
+		double area = areaTriangle(a, b, d) + areaTriangle(b, c, d);
+		
+		return area;
+	}
+	
+	public static boolean activateCamera1(double[] tagLocation, double[] corner1, double[] corner2, double[] corner3, double[] corner4) {
+		
+		double areaT1 = areaTriangle(corner1, tagLocation, corner4);
+		double areaT2 = areaTriangle(corner1, tagLocation, corner2);
+		double areaT3 = areaTriangle(corner2, tagLocation, corner3);
+		double areaT4 = areaTriangle(corner3, tagLocation, corner4);
+		
+		double sumTriangles = areaT1 + areaT2 + areaT3 + areaT4;
+		
+		double areaRoom = areaRectangle(corner1, corner2, corner3, corner4);
+		
+		if(sumTriangles > areaRoom) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 	
 	

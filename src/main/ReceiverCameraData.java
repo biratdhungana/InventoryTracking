@@ -5,20 +5,15 @@ import java.io.*;
 
 public class ReceiverCameraData implements Runnable {
 	
-	Thread sendCameraData;
-	Thread receiveCameraData;
-	Thread sendAppData;
-	Thread receiveFromApp;
-	Thread receiveTagLocation;
+	public Thread receiveFromApp;
+	public Thread receiveTagLocation;
+	public Thread images;
 
 	public ReceiverCameraData() {
 
-		
-		this.sendCameraData = new Thread(this,"sendCameraData");
-		this.receiveCameraData = new Thread(this, "receiveCameraData"); 
-		this.sendAppData = new Thread(this,"sendAppData");
 		this.receiveTagLocation = new Thread(this, "receiveTagLocation");
 		this.receiveFromApp = new Thread(this, "receiveFromApp");
+		this.images = new Thread(this, "images");
 		
 		
 	}
@@ -27,10 +22,8 @@ public class ReceiverCameraData implements Runnable {
 	{
 		System.out.println("Server Running");
 		this.receiveFromApp.start();
-		this.sendCameraData.start();
-		this.receiveCameraData.start();
-		this.receiveTagLocation.start();
-		this.sendAppData.start();
+		this.images.start();
+		//this.receiveTagLocation.start();
 		
 	}
 	
@@ -38,46 +31,33 @@ public class ReceiverCameraData implements Runnable {
 	
 	public void run() {
 		// TODO Auto-generated method stub
-		
-		if(Thread.currentThread().getName().equals("sendCameraData"))
+		if(Thread.currentThread().getName().equals("receiveTagLocation"))  //receive tag location update polling
 		{
-		
-       	 	
-		}
-		else if(Thread.currentThread().getName().equals("receiveCameraData"))
-		{
-			
-		}
-		else if(Thread.currentThread().getName().equals("sendAppData"))
-		{
-			
-		}
-		else if(Thread.currentThread().getName().equals("receiveTagLocation"))  //receive tag location update polling
-		{
-			
 			
 			ReceiverApp locationUpdate = new ReceiverApp();
 			try {
-				//locationUpdate.receiveLocationData();
+				locationUpdate.receiveLocationData();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	                	
-			
 		}
-		else //receive from app
+		else if(Thread.currentThread().getName().equals("receiveFromApp"))//receive from app
 		{
 			
 			ReceiverApp rApp = new ReceiverApp();
 			try {
 				rApp.receiveInitialApp();
-				rApp.receiveTagApp();
+				//rApp.receiveTagApp();     commented out because it is currently a one tag system - uncomment when more tags are added
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		
+		}
+		else {   //receive images from camera, store, and send to user app
+			
 		}
 	}
         
