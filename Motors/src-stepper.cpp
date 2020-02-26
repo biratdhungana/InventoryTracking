@@ -106,11 +106,16 @@ class StepperMotor
 		gpioSetMode(pin4, PI_OUTPUT);
 		
 		driverPinsOff();
+
+		return true;
 	}
 };
 
 void turnMotorsToAngles(StepperMotor horiMotor, StepperMotor vertiMotor, double horiAngle, double vertiAngle){
-	
+
+	horiMotor.setAngle(0);
+	vertiMotor.setAngle(0);
+
 	while(fabs(horiMotor.getAngle()) <= fabs(horiAngle) or fabs(vertiMotor.getAngle()) <= fabs(vertiAngle)){
 	
 		if(horiMotor.getAngle() < horiAngle){
@@ -142,7 +147,7 @@ void turnMotorsToAngles(StepperMotor horiMotor, StepperMotor vertiMotor, double 
 	}
 }
 
-void commsReceive(StepperMotor horiMotor, StepperMotor vertiMotor){
+void receiveAndTurn(StepperMotor horiMotor, StepperMotor vertiMotor){
 	int server_fd, new_socket, valread;
 	struct sockaddr_in address;
 	int opt =1;
@@ -263,7 +268,7 @@ int main(){
 	vertiMotor.initMotor(OUTPUT_PIN_5, OUTPUT_PIN_6, OUTPUT_PIN_7, OUTPUT_PIN_8);
 
 	while(terminate ==false){
-		commsReceive(horiMotor, vertiMotor);
+		receiveAndTurn(horiMotor, vertiMotor);
 	}
 }
 
