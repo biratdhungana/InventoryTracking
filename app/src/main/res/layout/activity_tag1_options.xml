@@ -11,17 +11,10 @@
         android:src="@drawable/background"
         android:scaleType="centerCrop"/>
 
-    <TextView
-        android:id="@+id/placeHolder"
-        android:text="Tag 1 Options"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/livestreamT1"
-        android:text="Livestream Tag 1"
-        android:layout_below="@id/placeHolder"/>
+        android:text="Livestream Tag 1" />
 
 </RelativeLayout>

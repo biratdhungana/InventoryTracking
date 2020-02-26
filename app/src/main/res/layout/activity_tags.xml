@@ -19,24 +19,29 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true" />
 
-    <TextView
-        android:id="@+id/placeHolder"
-        android:text="This Will Have a List of the Tags"
+    <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:id="@+id/LOGO"
+        android:src="@mipmap/logo"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"/>
+
 
     <Button
         android:id="@+id/TagButton1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tag 1"
-        android:layout_below="@id/placeHolder"/>
+        android:layout_centerInParent="true"
+        android:layout_below="@id/LOGO"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/TagButton2"
         android:text="Tag 2"
+        android:layout_centerInParent="true"
         android:layout_below="@id/TagButton1"/>
 
     <Button
@@ -44,6 +49,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/TagButton3"
         android:text="Tag 3"
+        android:layout_centerInParent="true"
         android:layout_below="@id/TagButton2"/>
 
     <Button
@@ -51,6 +57,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/TagButton4"
         android:text="Tag 4"
+        android:layout_centerInParent="true"
         android:layout_below="@id/TagButton3"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/TagButton4"
+        android:text="Please contact your admin to setup more tags to the system."
+        android:textStyle="italic"
+        android:textAlignment="center"/>
 
 </RelativeLayout>
