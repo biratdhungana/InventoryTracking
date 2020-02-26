@@ -12,7 +12,7 @@ import java.net.UnknownHostException;
 
 public class Tags extends AppCompatActivity {
 
-    Button tag1B;
+    Button tag1B,logoutB;
 //    InetAddress serverIP;
 
     @Override
@@ -25,6 +25,7 @@ public class Tags extends AppCompatActivity {
         setContentView(R.layout.activity_tags);
 
         tag1B = (Button)findViewById(R.id.TagButton1);
+        logoutB = (Button) findViewById(R.id.logoutButton);
 
 //        try{
 //            serverIP = InetAddress.getByName("192.168.1.101");
@@ -42,7 +43,14 @@ public class Tags extends AppCompatActivity {
 
                // Thread tag1Sender = new Thread(new Sender(serverIP,7007,"Requesting Info for Tag 1."));
                // tag1Sender.start();
+            }
+        });
 
+        logoutB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent loggedOut = new Intent(Tags.this,LoginActivity.class);
+                startActivity(loggedOut);
             }
         });
 

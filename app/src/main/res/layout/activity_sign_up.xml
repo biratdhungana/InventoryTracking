@@ -20,11 +20,10 @@
         android:layout_alignParentTop="true"/>
 
     <TextView
-        android:id="@+id/welcomemessage"
+        android:id="@+id/SignUpMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome To C3E2"
-        android:textSize="36dp"
+        android:text="Please enter the username and password to sign Up."
         android:textStyle="italic"
         android:textAlignment="gravity"
         android:layout_centerInParent="true"
@@ -33,50 +32,58 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/usernameSpace"
+        android:id="@+id/usernameSpaceSignUp"
         android:hint="Username"
         android:inputType="textEmailAddress"
-        android:layout_below="@+id/welcomemessage"/>
+        android:layout_below="@+id/SignUpMessage"/>
 
     <EditText
-        android:id="@+id/passwordSpace"
+        android:id="@+id/passwordSpaceSignUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
         android:inputType="textPassword"
-        android:layout_below="@id/usernameSpace"/>
+        android:layout_below="@id/usernameSpaceSignUp"/>
+
+    <EditText
+        android:id="@+id/passwordSpaceSignUp2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Confrim Password"
+        android:inputType="textPassword"
+        android:layout_below="@id/passwordSpaceSignUp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Admin PIN"
+        android:id="@+id/AdminPINSpace"
+        android:inputType="numberPassword"
+        android:layout_below="@id/passwordSpaceSignUp2"/>
 
     <Button
-        android:id="@+id/loginButton"
-        android:text="Login"
+        android:id="@+id/finishSignUpButton"
+        android:text="Finish Sign Up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/passwordSpace"
+        android:layout_below="@id/AdminPINSpace"
         android:layout_alignParentLeft="true"/>
 
-    <Button
-        android:id="@+id/resetButton"
-        android:text="Reset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/passwordSpace"
-        android:layout_toRightOf="@id/loginButton"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/SignUpButton"
-        android:text="Sign Up"
-        android:layout_below="@id/passwordSpace"
-        android:layout_toRightOf="@id/resetButton"/>
+        android:id="@+id/CancelButton"
+        android:text="Cancel"
+        android:layout_below="@id/AdminPINSpace"
+        android:layout_toRightOf="@id/finishSignUpButton"/>
 
-    <Button
-        android:id="@+id/SetupButton"
-        android:text="Pro Initial Setup"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"/>
+        android:id="@+id/PINMessage"
+        android:layout_below="@id/finishSignUpButton"/>
+
 
 
 </RelativeLayout>
