@@ -69,7 +69,7 @@ public class CameraLineOfSight {
 		
 		double[] angles = new double[] {updownAngle, sidewaysAngle};
 		
-		updatedReference = angles;
+		updatedReference = tagLocation;
 		counter++;
 		
 		return angles;  //send these 3 angles to the camera controlling rpi to move the motors based on these angles

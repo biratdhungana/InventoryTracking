@@ -53,7 +53,7 @@ public class SendToCamera {
 	public void sendAnglesCamera2(double upDownAngle, double sidewaysAngle) throws Exception
 	 {
           System.out.println("Creating socket");
-	      Socket sock = new Socket("192.168.1.104", 5000);
+	      Socket sock = new Socket("192.168.1.104", 6000);
 	      System.out.println("Sending angles to Camera");
 	      System.out.println("Socket created and Accepted.");
 	      System.out.println("Connection established");

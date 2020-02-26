@@ -127,7 +127,7 @@ public class ReceiverApp {
         
         //Parse Reference Line for Camera 1
 	    String[] coordinates = receiveMessage.split(":");
-		String sReference = coordinates[1].substring(0, coordinates[1].length()-14);
+		String sReference = coordinates[1].substring(0, coordinates[1].length()-15);
 		String sReferenceX = sReference.substring(0, sReference.indexOf(","));
 		String sReferenceY = sReference.substring(sReference.indexOf(",")+1, sReference.indexOf(",", sReference.indexOf(",")+1));   
 		String sReferenceZ = sReference.substring(sReference.indexOf(",", sReference.indexOf(",")+1)+1, sReference.length());
@@ -166,7 +166,7 @@ public class ReceiverApp {
 		System.out.println("Camera 1 location = " + camera1[0] + " " + camera1[1] + " " + camera1[2]);
 		
 		//Parse Location for camera2
-		String sCamera2 = coordinates[9].substring(0, coordinates[9].length());
+		String sCamera2 = coordinates[9].substring(0, coordinates[9].length()-7);
 		String sCamera2X = sCamera2.substring(0, sCamera2.indexOf(","));
 		String sCamera2Y = sCamera2.substring(sCamera2.indexOf(",")+1, sCamera2.indexOf(",", sCamera2.indexOf(",")+1));   
 		String sCamera2Z = sCamera2.substring(sCamera2.indexOf(",", sCamera2.indexOf(",")+1)+1, sCamera2.length());
@@ -231,7 +231,8 @@ public class ReceiverApp {
 		System.out.println("Corner 4 location = " + corner4[0] + " " + corner4[1] + " " + corner4[2]);
 		
 		//Now that we have received all initial data we can start polling for tag location
-		this.receiveTagApp();
+		//this.receiveTagApp();
+		this.receiveLocationData();
 	}
 
 	public void receiveTagApp() throws Exception {
