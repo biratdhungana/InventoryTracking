@@ -66,7 +66,13 @@ public class CameraLineOfSight {
 		
 		double sidewaysAngle = (Math.acos((Math.pow(distanceCameratoObject1,2) + Math.pow(distanceCameratoObject2,2) - Math.pow(distanceBetweenObjects,2))/(2*distanceCameratoObject1*distanceCameratoObject2)))*180/Math.PI;
 	
+		if(tagLocation[2] < referenceLine[2]) {    //if direction is down, send negative vertical angle
+			updownAngle = -updownAngle;
+		}
 		
+		if(isLeft(cameraLocation, referenceLine, tagLocation) == true) {   //if direction is left, send negative horizontal angle
+			sidewaysAngle = -sidewaysAngle;
+		}
 		double[] angles = new double[] {updownAngle, sidewaysAngle};
 		
 		updatedReference = tagLocation;
@@ -88,6 +94,11 @@ public class CameraLineOfSight {
 		double area = areaTriangle(a, b, d) + areaTriangle(b, c, d);
 		
 		return area;
+	}
+	
+	//https://stackoverflow.com/questions/1560492/how-to-tell-whether-a-point-is-to-the-right-or-left-side-of-a-line (second answer)
+	public static boolean isLeft(double[] camera, double[] referenceLocation, double[] tagLocation){
+	     return ((referenceLocation[0] - camera[0])*(tagLocation[1] - camera[1]) - (referenceLocation[1] - camera[1])*(tagLocation[0] - camera[0])) > 0;
 	}
 	
 	public static boolean activateCamera1(double[] tagLocation, double[] corner1, double[] corner2, double[] corner3, double[] corner4) {
