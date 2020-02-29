@@ -5,11 +5,11 @@ import java.sql.*;
 
 public class Database {
 	
-
 	public Connection connect() {
 		Connection conn = null;
-		//THIS URL PATH NEEDS TO BE CHANGED ACCORDING TO DATABASE LOCATION IN RASPBERRY PI	
-		String url = "jdbc:mysql:M:/SYSC3010/SYSC3010Project/SQL/Database.db";		//path to db file
+		//TODO: THIS URL PATH NEEDS TO BE CHANGED ACCORDING TO DATABASE LOCATION IN RASPBERRY PI	
+        String url = "jdbc:mysql:M:/SYSC3010/SYSC3010Project/SQL/Database.db";		//path to db file
+        
 	    try {
 	    	conn = DriverManager.getConnection(url);  		//from imports. creates a connection to the DHU	            
 	    } catch (SQLException e) {
@@ -17,7 +17,22 @@ public class Database {
 	    	}
 	    return conn;
 	    }
-	 
+     
+        
+    public void insertUsername(String username, String password){
+        String enterName = "INSERT INTO users (username, password) VALUES(?,?)";
+
+        try (Connection conn = this.connect();
+        PreparedStatement statementInsert = conn.prepareStatement(enterName)) {					//Validates connection to put desired string in database
+        statementInsert.setString(2, username);											//assigns 2nd entry; he username	
+        statementInsert.setString(3, password);											//assigns 3rd entry; the password
+        statementInsert.executeUpdate();												
+        System.out.println("Inserted into Database");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());										//catches any exceptions that is not accounted for (invalid inputs)
+        }
+    }//finish insert into users
+
 	public void insert(String id, Double x, Double y, Double z) {
 
 		String sqlDelete = "DELETE FROM tags WHERE idTags=" + id;
@@ -68,10 +83,7 @@ public class Database {
 			 System.out.println("error");
 		}
 		
-		
-		
 		return lastEntry;
-		
 		
 	}
 	
@@ -81,7 +93,6 @@ public class Database {
 import java.sql.*;
 public class JavaMysqlSelectExample
 {
-
   public static void main(String[] args)
   {
     try
@@ -95,7 +106,6 @@ public class JavaMysqlSelectExample
       // our SQL SELECT query. 
       // if you only need a few columns, specify them by name instead of using "*"
       String query = "SELECT * FROM users";
-
       // create the java statement
       Statement st = conn.createStatement();
       
