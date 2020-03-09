@@ -189,14 +189,12 @@ void receiveAndTurn(StepperMotor horiMotor, StepperMotor vertiMotor){
 		exit(EXIT_FAILURE);
 	}
 
-	cout <<"bout to read" << endl;
 	valread = read(new_socket, buffer, 1024);
 	cout << buffer << endl;
-	cout << "sleepy time" << endl;
-
 	string dataOut = buffer;
 
-	//turn motors
+	//At this point, buffer contains data
+	//time to parse data (two space delimited angles) and turn motors
 	std::string delimeter = " ";
 	size_t pos = dataOut.find(delimeter);
 
@@ -207,11 +205,10 @@ void receiveAndTurn(StepperMotor horiMotor, StepperMotor vertiMotor){
 	cout << "the angles are " << inputAngles[0] << " and " << inputAngles[1] << endl;
 	turnMotorsToAngles(horiMotor, vertiMotor, inputAngles[0], inputAngles[1]);	
 	usleep(10000);	
-	cout << "bout to send" << endl;
+	cout << "motors have turned, sending acknowledgement to server..." << endl;
 	int test = send(new_socket, ack, strlen(ack), 0);
 	cout << "data sent " << test << endl;
 	shutdown(server_fd, 2);
-	cout << "shutdown" << endl;
 }
 /*
 void commsSendAck(){
@@ -258,10 +255,13 @@ void commsSendAck(){
 	shutdown(server_fd, 2);
 }
 */
+
 int main(){
 
+	//Future implementation: server can shut down the system by sending a terminate signal?
 	bool terminate = false;
 	
+	//initialize GPIO pins and set an initial state
 	StepperMotor horiMotor;
 	StepperMotor vertiMotor;
 	horiMotor.initMotor(OUTPUT_PIN_1, OUTPUT_PIN_2, OUTPUT_PIN_3, OUTPUT_PIN_4);
