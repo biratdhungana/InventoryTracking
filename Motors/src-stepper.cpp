@@ -118,28 +118,36 @@ void turnMotorsToAngles(StepperMotor horiMotor, StepperMotor vertiMotor, double 
 
 	while(fabs(horiMotor.getAngle()) <= fabs(horiAngle) or fabs(vertiMotor.getAngle()) <= fabs(vertiAngle)){
 	
-		if(horiMotor.getAngle() < horiAngle){
+		if((horiMotor.getAngle()) < (horiAngle)){
 			horiMotor.halfStepCW();
 			horiMotor.setAngle(horiMotor.getAngle()+0.088);//motor turns 0.088 degrees per step
+			cout << "turning CW hori " << horiMotor.getAngle() << endl;
 			usleep(500);
 		}
-		else if(horiMotor.getAngle() > horiAngle){
+		else if((horiMotor.getAngle()) > (horiAngle)){
 			horiMotor.halfStepCCW();
 			horiMotor.setAngle(horiMotor.getAngle()-0.088);//motor turns 0.088 degrees per step
+			cout << "turning CCW hori " << horiMotor.getAngle() <<  endl;
 			usleep(500);
 		}
 
-		if(vertiMotor.getAngle() < vertiAngle){
+		if((vertiMotor.getAngle()) < (vertiAngle)){
 			vertiMotor.halfStepCW();
 			vertiMotor.setAngle(vertiMotor.getAngle()+0.088);//motor turns 0.088 degrees per step
+			cout << "turning CW verti " << vertiMotor.getAngle() << endl;
 			usleep(500);
 		}
-		else if(vertiMotor.getAngle() > vertiAngle){
+		else if((vertiMotor.getAngle()) > (vertiAngle)){
 			vertiMotor.halfStepCCW();
-			vertiMotor.setAngle(vertiMotor.getAngle()-0.088);//motor turns 0.088 degrees per step 	
+			vertiMotor.setAngle(vertiMotor.getAngle()-0.088);//motor turns 0.088 degrees per step 
+			cout << "turning CCW verti " << vertiMotor.getAngle() << endl;
+			usleep(500);	
 		}
 		
-		if((abs(horiMotor.getAngle() - horiAngle)< 0.1) && (abs(vertiMotor.getAngle() - vertiAngle)< 0.1)){
+		if((abs(horiMotor.getAngle() - (horiAngle))< 0.1) && (abs(vertiMotor.getAngle() - (vertiAngle))< 0.1)){
+
+			horiMotor.getAngle();
+			cout << "byebye!" << endl;
 			break;
 
 		}
@@ -256,6 +264,7 @@ void commsSendAck(){
 }
 */
 
+
 int main(){
 
 	//Future implementation: server can shut down the system by sending a terminate signal?
@@ -270,6 +279,9 @@ int main(){
 	while(terminate ==false){
 		receiveAndTurn(horiMotor, vertiMotor);
 	}
+	
+	//turnMotorsToAngles(horiMotor, vertiMotor, 300, 300);
+	
 }
 
 
