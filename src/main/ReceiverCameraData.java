@@ -49,7 +49,7 @@ public class ReceiverCameraData implements Runnable {
 			ReceiverApp rApp = new ReceiverApp();
 			try {
 				rApp.receiveInitialApp();
-				//rApp.receiveTagApp();     commented out because it is currently a one tag system - uncomment when more tags are added
+				rApp.receiveTagApp();     //commented out because it is currently a one tag system - uncomment when more tags are added
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

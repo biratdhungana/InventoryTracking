@@ -16,6 +16,7 @@ public class ReceiverApp {
 	
 	public double[] referenceLine1;
 	public double[] referenceLine2;
+	public double[] doorway;
 	public double[] camera1;
 	public double[] camera2;
 	public double[] corner1;
@@ -104,6 +105,12 @@ public class ReceiverApp {
 						 catch (Exception e) {
 							 e.printStackTrace();
 						 }
+				 	}
+				 	
+				 	boolean takePicture = camera.activateDoorCamera(updatedCoordinates);
+				 	
+				 	if(takePicture == true) {
+				 		//Muaz will write code to communicate with door camera and take picture here
 				 	}
 			      }
 			}
@@ -230,6 +237,19 @@ public class ReceiverApp {
 		corner4 = new double[] {xCorner4, yCorner4, zCorner4};
 		System.out.println("Corner 4 location = " + corner4[0] + " " + corner4[1] + " " + corner4[2]);
 		
+		//Parse Location for Doorway
+		String sDoorway = coordinates[3].substring(0, coordinates[3].length()-7);
+		String sDoorwayX = sDoorway.substring(0, sDoorway.indexOf(","));
+		String sDoorwayY = sDoorway.substring(sDoorway.indexOf(",")+1, sDoorway.indexOf(",", sDoorway.indexOf(",")+1));   
+		String sDoorwayZ = sDoorway.substring(sDoorway.indexOf(",", sDoorway.indexOf(",")+1)+1, sDoorway.length());
+		
+		double xDoorway = Double.parseDouble(sDoorwayX);
+		double yDoorway = Double.parseDouble(sDoorwayY);
+		double zDoorway = Double.parseDouble(sDoorwayZ);
+		
+		doorway = new double[] {xDoorway, yDoorway, zDoorway};
+		System.out.println("Doorway location = " + doorway[0] + " " + doorway[1] + " " + doorway[2]);
+		
 		//Now that we have received all initial data we can start polling for tag location
 		//this.receiveTagApp();
 		this.receiveLocationData();
@@ -257,7 +277,7 @@ public class ReceiverApp {
 			      }
 			      if(tagCounter==0) {
 			    	  //r.receiveTagLocation.start();   uncomment this when we want multiple tags system
-			    	  this.receiveLocationData();
+			    	  //this.receiveLocationData();
 			      }
 			      else {
 			    	  //r.receiveTagLocation.interrupt();    uncomment this when we want multiple tags system

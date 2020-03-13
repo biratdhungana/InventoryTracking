@@ -120,6 +120,33 @@ public class CameraLineOfSight {
 		}
 	}
 	
+	public static boolean activateDoorCamera(double[] tagLocation) {
+		
+		ReceiverApp rApp = new ReceiverApp();
+		
+		double[] doorCorner1 = new double[]{rApp.doorway[0]-1, rApp.doorway[1]+1};  //might have to increase the range of these corners from +-1
+		double[] doorCorner2 = new double[]{rApp.doorway[0]+1, rApp.doorway[1]+1};
+		double[] doorCorner3 = new double[]{rApp.doorway[0]+1, rApp.doorway[1]-1};
+		double[] doorCorner4 = new double[]{rApp.doorway[0]-1, rApp.doorway[1]-1};
+		
+		double areaT1 = areaTriangle(doorCorner1, tagLocation, doorCorner4);
+		double areaT2 = areaTriangle(doorCorner1, tagLocation, doorCorner2);
+		double areaT3 = areaTriangle(doorCorner2, tagLocation, doorCorner3);
+		double areaT4 = areaTriangle(doorCorner3, tagLocation, doorCorner4);
+		
+		double sumTriangles = areaT1 + areaT2 + areaT3 + areaT4;
+		
+		double areaRoom = areaRectangle(doorCorner1, doorCorner2, doorCorner3, doorCorner4);
+		
+		if(sumTriangles > areaRoom) {
+			return false;
+		}
+		else {
+			return true;
+		}
+
+	}
+	
 	
 		
 }
