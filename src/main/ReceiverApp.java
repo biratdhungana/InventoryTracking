@@ -1,6 +1,6 @@
 package main;
 
-
+import java.lang.ProcessBuilder;
 import java.io.*;
 import java.net.*;
 
@@ -44,20 +44,20 @@ public class ReceiverApp {
 			      BufferedReader receiveRead = new BufferedReader(isr);
 			      sersock.close(); 
 			      String locationUpdate; 
-			      Thread.sleep(1000);
+			      //Thread.sleep(5000);
 
 			      while((locationUpdate = receiveRead.readLine()) != null)    
 			      {
 				 
-				 	System.out.println(locationUpdate);
+				 	//System.out.println(locationUpdate);
 
 					if(locationUpdate.contains("x")) {
 			         		xUpdate = locationUpdate.substring(locationUpdate.indexOf("x")+2, locationUpdate.indexOf(","));
-			         		System.out.println("xUpdate = " + xUpdate);
+			         		//System.out.println("xUpdate = " + xUpdate);
 			         		yUpdate = locationUpdate.substring(locationUpdate.indexOf("y")+2, locationUpdate.indexOf(",", locationUpdate.indexOf(",")+1));
-			         		System.out.println("yUpdate = " + yUpdate);
+			         		//System.out.println("yUpdate = " + yUpdate);
 			         		zUpdate = locationUpdate.substring(locationUpdate.indexOf("z")+2, locationUpdate.lastIndexOf(","));
-			         		System.out.println("zUpdate = " + zUpdate);
+			         		//System.out.println("zUpdate = " + zUpdate);
 					}
 					else{
 						break;
@@ -72,7 +72,7 @@ public class ReceiverApp {
 				 	//db.insert(this.tagId, xNew, yNew, zNew);
 				 
 				 	//double[] updatedCoordinates = db.retrieveLastEntry(this.tagId);
-				 	double[] updatedCoordinates = new double[]{xNew, yNew, zNew};
+				 	double[] updatedCoordinates = new double[]{xNew/1000, yNew/1000, zNew/1000};
 				 	
 				 	CameraLineOfSight camera = new CameraLineOfSight();
 				 	
@@ -106,11 +106,13 @@ public class ReceiverApp {
 							 e.printStackTrace();
 						 }
 				 	}
-				 	
-				 	boolean takePicture = camera.activateDoorCamera(updatedCoordinates);
+					//double[] tag = new double[]{-0.14,3.86,0.28};
+				 	boolean takePicture = camera.activateDoorCameraC(updatedCoordinates, doorway);
 				 	
 				 	if(takePicture == true) {
-				 		//Muaz will write code to communicate with door camera and take picture here
+					    System.out.println("Take picture!");
+					    String[] args = {"/bin/bash", "-c", "raspistill -o /home/pi/cameraStuff/image1.jpg"};
+					    Process proc = new ProcessBuilder(args).start();
 				 	}
 			      }
 			}

@@ -21,11 +21,11 @@ public class SendToCamera {
 	
 	public void sendAnglesCamera1(double upDownAngle, double sidewaysAngle) throws Exception
 	 {
-          System.out.println("Creating socket");
+         // System.out.println("Creating socket");
 	      Socket sock = new Socket("192.168.1.104", 6000);
-	      System.out.println("Sending angles to Camera");
-	      System.out.println("Socket created and Accepted.");
-	      System.out.println("Connection established");
+	      //System.out.println("Sending angles to Camera");
+	      //System.out.println("Socket created and Accepted.");
+	      //System.out.println("Connection established");
 	      OutputStream ostream = sock.getOutputStream(); 
 	      PrintWriter pwrite = new PrintWriter(ostream, true);
 	      String sendMessage;               
@@ -33,30 +33,30 @@ public class SendToCamera {
 		  sendMessage = angleData;
 		  pwrite.println(sendMessage);             
 		  pwrite.flush();
-		  System.out.println("Angles Sent to Cameras: " + angleData);
+	//	  System.out.println("Angles Sent to Cameras: " + angleData);
 
 
-		  System.out.println("Server ready to receive Acknowledgement of Camera Movement");
+	//	  System.out.println("Server ready to receive Acknowledgement of Camera Movement");
 
 		  BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-		  System.out.println("input stream created");
+	//	  System.out.println("input stream created");
 		  String receiveMessage;
 		  if((receiveMessage = in.readLine()) != null){
 
-				System.out.println("Camera Movement Acknowledgement Received: " + receiveMessage);
+	//			System.out.println("Camera Movement Acknowledgement Received: " + receiveMessage);
 				sock.close();
-				System.out.println("Socket closed");
+	//			System.out.println("Socket closed");
 		  }
 
     	}         
 	
 	public void sendAnglesCamera2(double upDownAngle, double sidewaysAngle) throws Exception
 	 {
-          System.out.println("Creating socket");
+         // System.out.println("Creating socket");
 	      Socket sock = new Socket("192.168.1.104", 6000);
-	      System.out.println("Sending angles to Camera");
-	      System.out.println("Socket created and Accepted.");
-	      System.out.println("Connection established");
+	  //    System.out.println("Sending angles to Camera");
+	   //   System.out.println("Socket created and Accepted.");
+	    //  System.out.println("Connection established");
 	      OutputStream ostream = sock.getOutputStream(); 
 	      PrintWriter pwrite = new PrintWriter(ostream, true);
 	      String sendMessage;               
@@ -64,18 +64,18 @@ public class SendToCamera {
 	      sendMessage = angleData;
 	      pwrite.println(sendMessage);             
 	      pwrite.flush();
-	      System.out.println("Angles Sent to Cameras: " + angleData);
+	     // System.out.println("Angles Sent to Cameras: " + angleData);
 
 
-	      System.out.println("Server ready to receive Acknowledgement of Camera Movement");
+	      //System.out.println("Server ready to receive Acknowledgement of Camera Movement");
 
 	      BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-	      System.out.println("input stream created");
+//	      System.out.println("input stream created");
 	      String receiveMessage;
 	      if((receiveMessage = in.readLine()) != null){
-				System.out.println("Camera Movement Acknowledgement Received: " + receiveMessage);
+	//			System.out.println("Camera Movement Acknowledgement Received: " + receiveMessage);
 				sock.close();
-				System.out.println("Socket closed");
+	//			System.out.println("Socket closed");
 	      }
 
    	}        

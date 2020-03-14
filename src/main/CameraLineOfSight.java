@@ -45,8 +45,7 @@ public class CameraLineOfSight {
         
         cameraLocation = camera;
 		 
-		//double[] referenceLine = new double[] {40, 50, 60};
-		System.out.println("Initial Camera Line of Sight = " + referenceLine[0] + "," + referenceLine[1] + "," + referenceLine[2]);
+	//	System.out.println("Initial Camera Line of Sight = " + referenceLine[0] + "," + referenceLine[1] + "," + referenceLine[2]);
 		
 		//Angle of Elevation
 		double distanceCameratoObject1 = Math.sqrt(Math.pow(cameraLocation[0]-referenceLine[0],2) + Math.pow(cameraLocation[1]-referenceLine[1],2) + Math.pow(cameraLocation[2]-referenceLine[2],2));
@@ -120,15 +119,19 @@ public class CameraLineOfSight {
 		}
 	}
 	
-	public static boolean activateDoorCamera(double[] tagLocation) {
+	public static boolean activateDoorCamera(double[] tagLocation, double[] doorway) {
 		
-		ReceiverApp rApp = new ReceiverApp();
 		
-		double[] doorCorner1 = new double[]{rApp.doorway[0]-1, rApp.doorway[1]+1};  //might have to increase the range of these corners from +-1
-		double[] doorCorner2 = new double[]{rApp.doorway[0]+1, rApp.doorway[1]+1};
-		double[] doorCorner3 = new double[]{rApp.doorway[0]+1, rApp.doorway[1]-1};
-		double[] doorCorner4 = new double[]{rApp.doorway[0]-1, rApp.doorway[1]-1};
-		
+		//double[] doorCorner1 = new double[]{doorway[0]-1.5, doorway[1]+1.5};  //might have to increase the range of these corners from +-1
+		//double[] doorCorner2 = new double[]{doorway[0]+1.5, doorway[1]+1.5};
+		//double[] doorCorner3 = new double[]{doorway[0]+1.5, doorway[1]-1.5};
+		//double[] doorCorner4 = new double[]{doorway[0]-1.5, doorway[1]-1.5};
+	
+		double[] doorCorner1 = new double[]{-5,5};
+		double[] doorCorner2 = new double[]{5,5};
+		double[] doorCorner3 = new double[]{5,-5};
+		double[] doorCorner4 = new double[]{-5,-5};
+
 		double areaT1 = areaTriangle(doorCorner1, tagLocation, doorCorner4);
 		double areaT2 = areaTriangle(doorCorner1, tagLocation, doorCorner2);
 		double areaT3 = areaTriangle(doorCorner2, tagLocation, doorCorner3);
@@ -138,11 +141,32 @@ public class CameraLineOfSight {
 		
 		double areaRoom = areaRectangle(doorCorner1, doorCorner2, doorCorner3, doorCorner4);
 		
-		if(sumTriangles > areaRoom) {
-			return false;
+		if(sumTriangles == areaRoom) {
+			return true;
 		}
 		else {
+			return false;
+		}
+
+	}
+
+	public static boolean activateDoorCameraC(double[] tagLocation, double[] doorway){
+
+		//System.out.println("Inside activating door camera");
+		//System.out.println("tag = " + tagLocation[0] + " " + tagLocation[1]);
+		//System.out.println("door= " + doorway[0] + " " + doorway[1]);
+
+		double d = Math.sqrt((Math.pow((tagLocation[0]-doorway[0]),2)) + (Math.pow((tagLocation[1]-doorway[1]),2)));
+
+		double r = 1.5;
+		//System.out.println("d = " + d);
+		//System.out.println("r= " +r);
+		
+		if(d<r){
 			return true;
+		}
+		else{
+			return false;
 		}
 
 	}
