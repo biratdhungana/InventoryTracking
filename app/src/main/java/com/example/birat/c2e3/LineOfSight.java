@@ -46,6 +46,9 @@ public class LineOfSight extends AppCompatActivity {
         //TODO: Delete later
         debugButton = (Button)findViewById(R.id.DebugButton);
 
+        //TODO: Delete later
+        debugButton = (Button)findViewById(R.id.DebugButton);
+
         try{
             serverIP = InetAddress.getByName("192.168.1.101");
         }catch (UnknownHostException e){
@@ -66,9 +69,9 @@ public class LineOfSight extends AppCompatActivity {
         debugButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Thread defaultSender = new Thread(new Sender(serverIP,8008,"Line of Sight: " + lineOfSight.getText().toString()  + " " + "Line of Sight 2: 7, 8, 9" + " "  +
-                        "Doorway: 6.02, 1.17, 1.46" +" " + "Corner1: 0, 0, 0" + " " + "Corner2: 3.00,0.9,-1.35" + " "  + "Corner3: 3.00, 3.64, -1.89 " + " " +
-                        "Corner4: 0.69,3.28,0" + "Camera1: 0.35, 3.31, 1.2" + " " + "Camera2: 0.35, 3.31, 1.2" + " " + "Camera3: "));
+                Thread defaultSender = new Thread(new Sender(serverIP,8008,"Line of Sight: " + lineOfSight.getText().toString()  + " " + "Line of Sight 2: "+ lineOfSight.getText().toString() + " "  +
+                        "Doorway: " + doorway.getText().toString() +" " + "Corner1: 0, 0, 0" + " " + "Corner2: 4.14, 0, 0" + " "  + "Corner3: 5.8, 3.86, 0" + " " +
+                        "Corner4: 0.33, 4.47, 0" + "Camera1: 0.33, 4.47, 0" + " " + "Camera2: 0.33, 4.47, 0" + " " + "Camera3:" + cameraThree.getText().toString() + " "));
                 defaultSender.start();
             }
         });
