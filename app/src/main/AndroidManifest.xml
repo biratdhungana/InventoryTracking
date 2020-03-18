@@ -21,7 +21,8 @@
         <activity android:name=".Tags" />
         <activity android:name=".LineOfSight" />
         <activity android:name=".LiveStreamActivity" />
-        <activity android:name=".Tag1Options"></activity>
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".DoorActivity"></activity>
     </application>
 
 </manifest>

@@ -7,15 +7,19 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.io.EOFException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class LineOfSight extends AppCompatActivity {
 
     Button finishButton;
-    EditText lineOfSight, doorway, cornerOne, cornerTwo, cornerThree, cameraOne, cameraTwo;
+    EditText lineOfSight, lineOfSight2, doorway, cornerOne, cornerTwo, cornerThree, cornerFour, cameraOne, cameraTwo;
     EditText cameraThree;
     InetAddress serverIP;
+
+    //TODO: Delete later
+    Button debugButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +34,17 @@ public class LineOfSight extends AppCompatActivity {
 
         finishButton = (Button)findViewById(R.id.FinishButton);
         lineOfSight = (EditText)findViewById(R.id.LineOfSightSpace);
+        lineOfSight2 = (EditText)findViewById(R.id.LineOfSightSpace2);
         doorway = (EditText)findViewById(R.id.Doorway1);
         cornerOne = (EditText)findViewById(R.id.Corner1);
         cornerTwo = (EditText) findViewById(R.id.Corner2);
         cornerThree = (EditText)findViewById(R.id.Corner3);
+        cornerFour = (EditText)findViewById(R.id.Corner4);
         cameraOne = (EditText)findViewById(R.id.Camera1);
         cameraTwo = (EditText)findViewById(R.id.Camera2);
-        cameraThree =(EditText)findViewById(R.id.Camera3);
+
+        //TODO: Delete later
+        debugButton = (Button)findViewById(R.id.DebugButton);
 
         try{
             serverIP = InetAddress.getByName("192.168.1.101");
@@ -48,11 +56,23 @@ public class LineOfSight extends AppCompatActivity {
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Thread setupSender = new Thread(new Sender(serverIP,8008,"Line of Sight:" + lineOfSight.getText().toString() +" " + "Doorway:" + doorway.getText().toString() +" " +
-                        "Corner1:" + cornerOne.getText().toString() + " " + "Corner2:" + cornerTwo.getText().toString()+ " "  + "Corner3:" + cornerThree.getText().toString() + " " +
-                        "Camera1:" + cameraOne.getText().toString() + " " + "Camera2:" + cornerTwo.getText().toString()+ " " + "Camera3:" + cameraThree.getText().toString() + " "));
+                Thread setupSender = new Thread(new Sender(serverIP,8008,"Line of Sight:" + lineOfSight.getText().toString() +" " + "Line of Sight 2:" + lineOfSight2.getText().toString() + " "  +
+                         "Doorway:" + doorway.getText().toString() +" " + "Corner1:" + cornerOne.getText().toString() + " " + "Corner2:" + cornerTwo.getText().toString()+ " "  + "Corner3:" + cornerThree.getText().toString() + " " +
+                         "Corner4:" + cornerFour.getText().toString() + "Camera1:" + cameraOne.getText().toString() + " " + "Camera2:" + cornerTwo.getText().toString()+ " " + "Camera3:" + cameraThree.getText().toString() + " "));
                 setupSender.start();
             }
         });
+
+        debugButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Thread defaultSender = new Thread(new Sender(serverIP,8008,"Line of Sight: " + lineOfSight.getText().toString()  + " " + "Line of Sight 2: 7, 8, 9" + " "  +
+                        "Doorway: 6.02, 1.17, 1.46" +" " + "Corner1: 0, 0, 0" + " " + "Corner2: 3.00,0.9,-1.35" + " "  + "Corner3: 3.00, 3.64, -1.89 " + " " +
+                        "Corner4: 0.69,3.28,0" + "Camera1: 0.35, 3.31, 1.2" + " " + "Camera2: 0.35, 3.31, 1.2" + " " + "Camera3: "));
+                defaultSender.start();
+            }
+        });
+
+
     }
 }
