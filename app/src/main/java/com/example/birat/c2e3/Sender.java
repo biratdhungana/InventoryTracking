@@ -51,12 +51,7 @@ public class Sender implements Runnable{
             DataOutputStream cmdOut = new DataOutputStream(socket.getOutputStream());
 
             while (true) {
-                cmdOut.writeBytes(message); //Convert the command to bytes and send them out through the stream.
-
-                //Receiving ACK from the input stream (NOT NEEDED FOR US)
-                //BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                //messageReceived = in.readLine();
-
+                cmdOut.writeBytes(message); //Convert the command to bytes and send them out through the stream
                 socket.close();
             }//end while(true)
         } catch (Exception e) {
