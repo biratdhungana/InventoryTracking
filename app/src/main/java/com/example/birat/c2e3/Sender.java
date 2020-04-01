@@ -13,7 +13,6 @@ public class Sender implements Runnable{
     Socket socket;
 
     public Sender (){
-
     }
     /**
      * Constructor Sender class.
@@ -27,7 +26,6 @@ public class Sender implements Runnable{
         this.ip=ip;
         this.message=message;
     }
-
     /**
      * Setter method to set message.
      *
@@ -39,8 +37,6 @@ public class Sender implements Runnable{
 
     @Override
     public void run() {
-
-
         try {
 
             try{
